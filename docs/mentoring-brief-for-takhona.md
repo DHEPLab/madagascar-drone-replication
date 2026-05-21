@@ -51,27 +51,41 @@ This is the part the reviewer cannot infer from the code, and it is the part HPM
 
 ## 3. The two analytical questions
 
-These are the ones we have to answer with the dry-run, not with prose.
+I read your scripts and the May 2025 Report `Tables/` output folder while setting up the repo. Both reviewer questions look diagnosable on the evidence we already have. Here is where I landed, with the caveat that you should verify the arithmetic when you run things.
 
 ### Question 1: N=380 → N=2800 for women's outcomes
 
-The reviewer flagged this as the single biggest analytical change between the two manuscript versions. My read: two plausible explanations, and we need to pick the right one before drafting any response.
+This is a **unit-of-observation change, not a sample-inclusion change**. Inside `Prep_04_Construct_Outcome_Tables_Women-takhona.do`, the `run_analysis` program stacks baseline and endline:
 
-- **Most likely (H1):** the inclusion criteria for the women's outcomes analytic sample changed between submissions. If we relaxed a restriction (broader eligibility window, looser complete-case rule, additional waves included), N would grow and standard errors would tighten.
-- **Plausible (H2):** the unit of observation changed. If R0 collapsed women's outcomes to one row per woman and R1 kept the long-form panel (multiple visits per woman), that ratio (2800 / 380 ≈ 7.4) is consistent with average waves per woman of around 7 to 8.
+```stata
+use   "`basefile'", clear
+gen   endline = 0
+append using "`endfile'"
+replace endline = 1 if missing(endline)
+xtset id_numeric endline
+xtreg outcomeX i.treatment##i.endline ..., fe vce(cluster id_numeric)
+```
 
-The check is mechanical: run your `01-prep/` code, log the N at each restriction step, and compare to the R0 numbers in the original Table 1. The step where they diverge tells us which hypothesis is correct.
+So every woman contributes two rows: one at baseline, one at endline. The R1 N for women's outcomes is therefore approximately 2x the per-wave count. The earlier R0 number (380) is most likely a single-wave cross-section or a both-waves-intersection complete-case sample.
 
-Once we know the answer, we write a clean paragraph in `analytical-changelog.md` explaining the change, and Tara and Kat lift it into the response letter.
+What I need you to confirm:
+
+1. Run `Prep_01_Baseline-takhona.do` and `Prep_02_Endline-takhona.do` and tell me the per-wave women's N. If it lands near 1400, the arithmetic closes cleanly.
+2. Confirm what R0 was reporting — single-wave cross-section, or a stricter both-waves intersection?
+
+I drafted provisional response-letter language in `docs/analytical-changelog.md` (the section explicitly labeled "Provisional resolution language"). Refine that paragraph after the numbers land, and Tara and Kat will lift the final version into the response letter.
 
 ### Question 2: Table 2 ANCOVA vs DID duplication
 
-The reviewer wrote that the DID column in Table 2 looks identical to the ANCOVA column. My read: most likely a copy-paste error during manuscript preparation, not a problem with your code. But the only way to confirm is to run both estimators independently from your scripts and compare the outputs.
+The May 2025 Report `Tables/` folder has separate `regression_results_6_ancova.csv` and `regression_results_6_did.csv` files for the women's outcomes. The underlying analyses ARE distinct in your code; the duplication is almost certainly a transcription error during manuscript assembly.
 
-- If they differ (expected): we correct the Table 2 DID column and document the fix.
-- If they are genuinely identical: the DID specification is mis-coded. Probably the post-period interaction was dropped, leaving an ANCOVA-equivalent regression. We would diagnose and re-run.
+What you need to do:
 
-Either way, we report the true DID values and confirm the methods description in the manuscript matches the corrected estimates.
+1. Open both CSVs for the family-6 (women's) outcomes. Confirm the coefficients and standard errors are different in the files themselves.
+2. Compare against the values printed in the manuscript Table 2 DID column. The column that got over-written should be obvious.
+3. Re-render Table 2 from the canonical CSVs. I would recommend writing a small `code/03-output/build_table_2.do` that reads from `output/tables/regression_results_*.csv` and writes a single source-of-truth Table 2 (so this transcription bug cannot recur).
+
+Provisional response-letter language is also in the changelog.
 
 ## 4. Out of scope for this round
 

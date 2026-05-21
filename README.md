@@ -41,13 +41,21 @@ Raw data and derived analytic datasets are kept out of version control. The cano
 
 ## How to run
 
-1. Place raw SharePoint extracts in `data/raw/` (see `docs/codebook.md` for expected files).
-2. Run scripts in numbered order:
-   - `code/01-prep/` — produces cleaned analytic datasets in `data/clean/`
-   - `code/02-analysis/` — produces ANCOVA and DID estimates
-   - `code/03-output/` — produces tables and figures in `output/`
+The active scripts are written in Stata. They were authored by Brian Frizzelle, modified by Tara Templin, and revised for R1 by Takhona Hlatshwako.
 
-A consolidated runner script will be added once the script inventory is mapped (see `docs/mentoring-brief-for-takhona.md`).
+1. **Configure paths.** Open `code/00_config.do` and edit the `$repo` macro to point at your local clone. This file is the single place where local paths are set.
+2. **Place raw data.** Either copy the OneDrive raw `.dta` files into `data/raw/`, or set `$ip` in `code/00_config.do` to point directly at the OneDrive location. See `docs/codebook.md` for the file inventory.
+3. **Run in numbered order:**
+   - `code/00_config.do` — sets global path macros (run every session before anything else).
+   - `code/01-prep/_var_labels.do` — variable-label utility, called by the prep scripts.
+   - `code/01-prep/Prep_01_Baseline-takhona.do` — builds baseline outcome-family datasets (`baseline_1_facility.dta` through `baseline_9_*.dta`).
+   - `code/01-prep/Prep_02_Endline-takhona.do` — builds endline outcome-family datasets.
+   - `code/02-analysis/Prep_04_Construct_Outcome_Tables-takhona.do` — ANCOVA and DID analyses for facility and child outcomes.
+   - `code/02-analysis/Prep_04_Construct_Outcome_Tables_Women-takhona.do` — stacked-panel DID-FE analysis for women's outcomes (this is the file relevant to the Reviewer 2 N=380 → 2800 question).
+
+Outputs land in `output/tables/` (`regression_results_<family>_<estimator>.csv`) and `output/figures/`.
+
+A consolidated runner (`run_all.do`) will be added once the analysis pipeline is verified end-to-end.
 
 ## Replication checklist
 

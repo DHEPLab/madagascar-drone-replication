@@ -10,19 +10,41 @@ This document is the principal Reviewer 2 deliverable, alongside the reproducibi
 
 **Reviewer 2:** flagged the sample-size jump and the corresponding movement in point estimates and standard errors.
 
-**Working hypotheses (to confirm by re-running the prep code):**
+**Working diagnosis (from reading `code/02-analysis/Prep_04_Construct_Outcome_Tables_Women-takhona.do`):**
 
-- **H1. Inclusion criteria changed between versions.** The most likely explanation. If the R1 prep code applies a different restriction (for example, expanding the window of eligible women, or relaxing a complete-case requirement) the analytic N would grow. Inspect `code/01-prep/` for inclusion logic and diff against any R0 prep code Takhona archived.
-- **H2. Panel / long-form vs cross-section restructuring.** Plausible alternative: women's outcomes in R0 were collapsed to one row per woman (cross-section) whereas R1 keeps multiple observations per woman (long-form panel by visit). N=2800 is roughly 7.4 × N=380, which is consistent with multiple observations per individual if average waves per woman are between 7 and 8.
+The change is a **unit-of-observation restructuring**, not a sample-inclusion change. Takhona's R1 women's analysis uses a stacked-panel DID:
 
-**Diagnostic plan:**
+```stata
+use   "`basefile'", clear
+gen   endline = 0
+append using "`endfile'"
+replace endline = 1 if missing(endline)
+...
+xtset id_numeric endline
+xtreg outcomeX i.treatment##i.endline ..., fe vce(cluster id_numeric)
+```
 
-1. Run the R1 prep code from `data/raw/`. Record the analytic N at each restriction step.
-2. Compare to the R0 numbers reported in the original manuscript Table 1.
-3. Identify the precise step where the two N values diverge.
-4. Document the change as either (a) inclusion-criteria revision (state the old and new rules and the substantive rationale) or (b) panel-vs-cross-section restructuring (state the unit of observation in each version and confirm the standard errors cluster appropriately).
+Each woman contributes one baseline observation and one endline observation, so the analytic N is approximately 2x the per-wave count of eligible women. The earlier (R0) Table 1 likely reported a cross-section N from a single wave (women observed at endline, or a collapsed one-row-per-woman view). The R1 panel structure is mechanically larger and the standard errors are clustered at `id_numeric` (woman level).
 
-**Resolution:** _to be written after diagnostic_
+This explanation is consistent with:
+
+- The standalone `Prep_04_Construct_Outcome_Tables_Women-takhona.do` file (separate from the non-women Prep_04), which exists *only* in the R1 Takhona lineage and not in the May 2025 Kat lineage.
+- The presence of `baseline_6_women.dta` and `endline_6_women.dta` (per-wave women's datasets) but no pre-stacked panel file — the stacking is constructed at analysis time inside the `run_analysis` program.
+
+**Open question (verify before drafting response):**
+
+- Is the per-wave women's N approximately 1400? If yes, 2 × 1400 = 2800 closes the arithmetic exactly.
+- Was the R0 N=380 a different subset (for example, only those with complete information on a particular outcome, or only women observed at both waves under a stricter complete-case rule)?
+
+**Diagnostic steps (still required):**
+
+1. Run `code/01-prep/Prep_01_Baseline-takhona.do` and `code/01-prep/Prep_02_Endline-takhona.do` to confirm per-wave women's sample sizes.
+2. Compare against the R0 Table 1 number (380) and identify whether R0 used a single-wave cross-section, a both-waves intersection, or a different complete-case rule.
+3. State the unit of observation, the clustering level, and the rationale in the response letter.
+
+**Provisional resolution language (to refine after diagnostic):**
+
+> Between the original submission and R1 we restructured the women's outcomes analysis from a single-wave cross-sectional ANCOVA-style sample to a stacked baseline-endline panel with two-way fixed effects and standard errors clustered at the woman level. The change in analytic N from approximately 380 to approximately 2,800 reflects this unit-of-observation change, not an expansion of inclusion criteria. We made this change to leverage the within-woman variation that the panel structure makes available and to produce standard errors that account for the repeated-measures design.
 
 ---
 
@@ -30,17 +52,26 @@ This document is the principal Reviewer 2 deliverable, alongside the reproducibi
 
 **Reviewer 2:** "the ANCOVA and DID results in Table 2 appear to be copy/paste identical records of each other."
 
-**Working hypothesis:** copy-paste error in manuscript preparation, not a methods bug. Sean's read of the comment is that the underlying analyses are likely distinct in Takhona's scripts; the duplication appears to be a transcription issue when the Table 2 was assembled.
+**Working diagnosis (from inspecting the May 2025 Report outputs):**
 
-**Diagnostic plan:**
+Evidence strongly supports **manuscript-prep copy-paste error**, not a code bug. The May 2025 Report `Tables/` folder contains separate result files for each outcome family and each estimator:
 
-1. Locate Takhona's ANCOVA code (`code/02-analysis/` candidate).
-2. Locate Takhona's DID code (`code/02-analysis/` candidate).
-3. Run both. Compare coefficients and standard errors.
-4. If estimates differ (expected): correct Table 2 to show the true DID column.
-5. If estimates are identical (unexpected): inspect the DID specification — most likely the script is mis-specified (for example, omitting the post-period interaction) and producing a parallel ANCOVA. Diagnose, correct, re-run.
+- `regression_results_6_ancova.csv` (women's outcomes, ANCOVA)
+- `regression_results_6_did.csv` (women's outcomes, DID)
+- `regression_results_6_multilevel.csv` (women's outcomes, multilevel)
 
-**Resolution:** _to be written after diagnostic_
+These are produced by distinct programs (`run_analysis` for DID-FE in the women's script; an ANCOVA program exists in the non-women Prep_04 file). The estimates in those CSVs are the canonical numbers.
+
+**Diagnostic steps:**
+
+1. Open `regression_results_6_ancova.csv` and `regression_results_6_did.csv` for the women's outcomes specifically.
+2. Confirm the two files have different coefficients and standard errors.
+3. Cross-check against the values printed in the *Drone_RCT_BMJGH_Final Submitted Manuscript* Table 2 — identify which column was inadvertently overwritten with the other estimator's numbers.
+4. Re-render Table 2 from the canonical CSVs (a Table 2 builder script under `code/03-output/` is the right home for this once written).
+
+**Provisional resolution language (to refine after diagnostic):**
+
+> We thank Reviewer 2 for catching this. The duplicate values in Table 2 reflect a transcription error during manuscript assembly: the DID column was inadvertently populated with the ANCOVA estimates. The underlying ANCOVA and DID analyses are distinct in our analytical code and produced different estimates. We have corrected Table 2 to display the actual DID coefficients and standard errors and have added the table-construction script to the replication package so the issue cannot recur.
 
 ---
 
