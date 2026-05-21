@@ -52,8 +52,9 @@ The active scripts are written in Stata. They were authored by Brian Frizzelle, 
    - `code/01-prep/Prep_02_Endline-takhona.do` — builds endline outcome-family datasets.
    - `code/02-analysis/Prep_04_Construct_Outcome_Tables-takhona.do` — ANCOVA and DID analyses for facility and child outcomes.
    - `code/02-analysis/Prep_04_Construct_Outcome_Tables_Women-takhona.do` — stacked-panel DID-FE analysis for women's outcomes (this is the file relevant to the Reviewer 2 N=380 → 2800 question).
+   - `code/03-output/build_table_2.do` — reads the canonical `regression_results_*.csv` files and renders Table 2 in three formats (long, wide, and a paste-ready formatted version). Includes a sanity check that halts if any outcome has pairwise-identical ANCOVA and DID estimates.
 
-Outputs land in `output/tables/` (`regression_results_<family>_<estimator>.csv`) and `output/figures/`.
+Outputs land in `output/tables/` (`regression_results_<family>_<estimator>.csv`, `table_2_*.csv`) and `output/figures/`.
 
 A consolidated runner (`run_all.do`) will be added once the analysis pipeline is verified end-to-end.
 

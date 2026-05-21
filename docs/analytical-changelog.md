@@ -31,20 +31,32 @@ This explanation is consistent with:
 - The standalone `Prep_04_Construct_Outcome_Tables_Women-takhona.do` file (separate from the non-women Prep_04), which exists *only* in the R1 Takhona lineage and not in the May 2025 Kat lineage.
 - The presence of `baseline_6_women.dta` and `endline_6_women.dta` (per-wave women's datasets) but no pre-stacked panel file — the stacking is constructed at analysis time inside the `run_analysis` program.
 
-**Open question (verify before drafting response):**
+**Empirical confirmation (from `regression_results_6_*.csv` in the May 2025 Report):**
 
-- Is the per-wave women's N approximately 1400? If yes, 2 × 1400 = 2800 closes the arithmetic exactly.
-- Was the R0 N=380 a different subset (for example, only those with complete information on a particular outcome, or only women observed at both waves under a stricter complete-case rule)?
+Outcome 39 ("Currently Using Any Contraceptive Method"):
 
-**Diagnostic steps (still required):**
+| Spec | N | Effect | SE |
+|---|---|---|---|
+| ANCOVA | **381** | 0.066 | 0.055 |
+| DID-FE (panel) | **2,410** | 0.043 | 0.053 |
 
-1. Run `code/01-prep/Prep_01_Baseline-takhona.do` and `code/01-prep/Prep_02_Endline-takhona.do` to confirm per-wave women's sample sizes.
-2. Compare against the R0 Table 1 number (380) and identify whether R0 used a single-wave cross-section, a both-waves intersection, or a different complete-case rule.
-3. State the unit of observation, the clustering level, and the rationale in the response letter.
+Outcome 42 ("Has Unmet Need for Contraception"):
 
-**Provisional resolution language (to refine after diagnostic):**
+| Spec | N | Effect | SE |
+|---|---|---|---|
+| ANCOVA | 530 | -0.039 | 0.031 |
+| DID-FE (panel) | 2,855 | -0.037 | 0.036 |
 
-> Between the original submission and R1 we restructured the women's outcomes analysis from a single-wave cross-sectional ANCOVA-style sample to a stacked baseline-endline panel with two-way fixed effects and standard errors clustered at the woman level. The change in analytic N from approximately 380 to approximately 2,800 reflects this unit-of-observation change, not an expansion of inclusion criteria. We made this change to leverage the within-woman variation that the panel structure makes available and to produce standard errors that account for the repeated-measures design.
+The R0-reported N≈380 is the ANCOVA N for the lead contraception outcome (literally 381). The R1-reported N≈2800 is the DID-FE N for that same outcome. The mechanism is the spec change, not a sample-inclusion change:
+
+- **ANCOVA** (`reg endvar treatment basevar covariates, vce(cluster idvar)`) requires a paired `1:1 merge` of baseline and endline files, then `reg` drops women with missing baseline OR endline values → restrictive complete-case sample.
+- **Panel DID-FE** (`xtreg outcome i.treatment##i.endline ..., fe vce(cluster id_numeric)`) operates on the appended baseline + endline stack and uses any non-missing observation at either wave → permissive sample with woman-level fixed effects.
+
+So the change is doubly permissive: it switches the unit of observation (cross-section of paired observations → stacked panel) AND it relaxes the both-waves complete-case rule.
+
+**Provisional resolution language (to refine with Tara and Kat):**
+
+> Between the original submission and R1 we changed the women's outcomes estimator from an ANCOVA-style cross-sectional specification — regressing the endline outcome on the baseline outcome, treatment, and covariates with cluster-robust standard errors — to a stacked baseline-endline panel with two-way fixed effects and standard errors clustered at the woman level. The change in analytic N from approximately 380 to approximately 2,800 (using outcome 39, contraceptive use, as the reference case: 381 → 2,410) reflects two consequences of the spec change: the unit of observation moves from one row per woman to one row per woman-wave, and the analysis no longer requires both baseline and endline values to be observed for each woman. The point estimates and standard errors move accordingly. We adopted the panel specification to leverage within-woman variation and to produce standard errors that account for the repeated-measures design.
 
 ---
 
