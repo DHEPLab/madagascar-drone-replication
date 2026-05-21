@@ -1,0 +1,39 @@
+# Raw and derived data — keep out of git
+data/raw/*
+!data/raw/.gitkeep
+data/clean/*
+!data/clean/.gitkeep
+
+# R
+.Rhistory
+.Rapp.history
+.RData
+.Ruserdata
+.Rproj.user/
+*.Rproj
+*-Ex.R
+
+# Stata
+*.stsem
+*.smcl
+profile.do
+*.log
+
+# Python / Jupyter
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+
+# Output cache (keep final tables/figures in git, ignore intermediates)
+output/cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*~
+*.swp
