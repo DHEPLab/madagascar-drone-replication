@@ -1,21 +1,12 @@
-global od = "/Users/takhona/Desktop/Summer 2025/Drone analysis"
-
 
 /*
 SCRIPT: 		Madagascar_Mar2025_Report_Prep_02_Endline.do
 AUTHOR:			Brian Frizzelle
 DATE:			March 28, 2025
-LAST UPDATED:	April 3, 2025
-
-This script pulls the endline variables needed for the March 2025 report for 
-Kat.
+MODIFIED:		Takhona Hlatshwako
+LAST UPDATED:	May 24, 2026
 
 */
-
-// Set paths
-global ip = "$od/Data"
-global dp = "$od/Data"
-global op = "$od/Results"
 
 ** FACILITY AUDIT MEASURES **
 // Open the Facility Audit data
@@ -193,9 +184,7 @@ drop _merge
 ** Apply value labels
 la val end05* yn
 ** Drop measures from Drone facilities outside of Mahanoro
-foreach v of varlist end05* {
-	replace `v' = . if treatment == 1 & District != "Mahanoro"
-}
+
 
 
 // OUTCOME 6: Out of Stock of Any Contraceptive Method in 3 Months Before Survey
@@ -203,7 +192,7 @@ foreach v of varlist end05* {
 egen end06 = rowmax(s2_21_*)
 la var end06 "6. Out of Stock of Any Contraceptive Method in the 3 Months Before Survey"
 ** Drop measures from Drone facilities outside of Mahanoro
-replace end06 = . if treatment == 1 & District != "Mahanoro"
+
 
 
 // OUTCOME 7: Out of Stock of LARC Removal Supplies at Time of Survey
@@ -390,399 +379,12 @@ keep facility_id treatment end* s0_employee nprv npre s1_02 s1_03 s1_04 s1_07 s1
 //append using `tot'
 //la def treatment 3 "Total", modify
 
-drop end01a end01b end01c 
+//drop end01a end01b end01c  - don't know why this was dropped before
+
 
 // Save
-save "$op/endline_micro_1_facility.dta", replace
+save "$dp/endline_micro_1_facility.dta", replace
 
-****************************************************************
-** CHW QRE MEASURES **
-// Open the CHW data
-use "$ip\endline_chw_cleaned_28012025_final.dta", clear
-
-** Set value labels
-la def yn 0 "No" 1 "Yes", replace
-
-// Keep only those variables needed for this report
-keep chw_id treatment District s1_service* s1_01_14 s1_01_15 s1_04* s1_05*
-
-
-// OUTCOME 9: CHW Out of Stock of Malaria Tests
-// Control/Drone/Total (58/52/110)
-preserve
-keep chw_id s1_service_* s1_04_*
-reshape long s1_service_ s1_04_, i(chw_id) j(n)
-renvars *_, postd(1)
-drop if missing(s1_service)
-keep if s1_service == 14
-recode s1_04 (1 2 = 0 "No") (3 = 1 "Yes"), gen(end09)
-la var end09	"9. CHW Out of Stock of Malaria Tests"
-keep chw_id end09
-tempfile b09
-save `b09'
-restore
-
-
-// OUTCOME 10: CHW Out of Stock of Malaria Treatment
-// Control/Drone/Total (31/26/57)
-preserve
-keep chw_id s1_service_* s1_04_*
-reshape long s1_service_ s1_04_, i(chw_id) j(n)
-renvars *_, postd(1)
-drop if missing(s1_service)
-keep if s1_service == 15
-recode s1_04 (1 2 = 0 "No") (3 = 1 "Yes"), gen(end10)
-la var end10	"10. CHW Out of Stock of Malaria Treatment"
-keep chw_id end10
-tempfile b10
-save `b10'
-restore
-
-
-// OUTCOME 11: CHW Out of Stock of Family Planning Methods
-// 11.  Control/Drone/Total (66/21/87)
-// 11a. Control/Drone/Total (60/19/79)
-// 11b. Control/Drone/Total (41/14/55)
-// 11c. Control/Drone/Total (48/17/65)
-// 11d. Control/Drone/Total (34/9/43)
-preserve
-keep chw_id treatment District s1_service_* s1_04_*
-reshape long s1_service_ s1_04_, i(chw_id treatment District) j(n)
-renvars *_, postd(1)
-drop if missing(s1_service)
-** Keep only those records for the four methods of interest
-keep if inlist(s1_service, 1, 2, 3, 5)
-** Construct the oos variable
-gen oos = s1_04 == 3
-la val oos yn
-** Reshape wide
-keep chw_id treatment District s1_service oos
-reshape wide oos, i(chw_id treatment District) j(s1_service)
-** Rename variables
-rename oos1 end11a
-rename oos2 end11b
-rename oos3 end11c
-rename oos5 end11d
-la var end11a	"11a. CHW Out of Stock of Injectable Depo Provera"
-la var end11b	"11b. CHW Out of Stock of Injectable Sayana Press"
-la var end11c	"11c. CHW Out of Stock of Pills"
-la var end11d	"11d. CHW Out of Stock of Male Condoms"
-** Create the combined variable
-egen end11 = rowmax(end11a-end11d)
-la val end11 yn
-la var end11	"11. CHW Out of Stock of Any of the Four FP Methods"
-order end11, before(end11a)
-** Drop measures from Drone facilities outside of Mahanoro
-foreach v of varlist end11* {
-	replace `v' = . if treatment == 1 & District != "Mahanoro"
-}
-drop treatment District
-tempfile b11
-save `b11'
-restore
-
-
-// Merge the three temporary datasets together
-keep chw_id treatment
-duplicates drop
-merge 1:1 chw_id using `b09'
-drop _merge
-merge 1:1 chw_id using `b10'
-drop _merge
-merge 1:1 chw_id using `b11'
-drop _merge
-
-
-// Collapse to get means and counts
-//preserve
-//collapse (mean) end09x=end09 end10x=end10 end11x=end11 ///
-//	end11ax=end11a end11bx=end11b end11cx=end11c end11dx=end11d ///
-//	(count) end09n=end09 end10n=end10 end11n=end11 ///
-//	end11an=end11a end11bn=end11b end11cn=end11c end11dn=end11d
-//gen treatment = 3, before(end09x)
-//tempfile tot
-//save `tot'
-//restore
-//collapse (mean) end09x=end09 end10x=end10 end11x=end11 ///
-//	end11ax=end11a end11bx=end11b end11cx=end11c end11dx=end11d ///
-//	(count) end09n=end09 end10n=end10 end11n=end11 ///
-//	end11an=end11a end11bn=end11b end11cn=end11c end11dn=end11d, ///
-//	by(treatment)
-//append using `tot'
-//la def treatment 3 "Total", modify
-
-// Save
-save "$op\endline_micro_2_chw.dta", replace
-
-****************************************************************
-** UAV MEASURES **
-// Open the UAV data
-use "$ip\endline_UAV_CLEAN_VISITS_1_2_12032025_final.dta", clear
-
-// Keep only those variables needed for this report
-keep provider_id visit_id treatment s1_01
-
-// Create an absent variable
-recode s1_01 (1=0 "No") (0=1 "Yes"), gen(absent)
-drop s1_01
-
-/*
-// Reshape wide
-reshape wide absent, i(provider_id) j(visit_id)
-*/
-
-// OUTCOME 20: Provider is Absent
-// Control/Drone/Total (155/144/299)
-la def yn 0 "No" 1 "Yes", replace
-gen end20 = absent
-// egen end20 = rowmax(absent*)
-la val end20 yn
-la var end20 "20. Provider is Absent"
-
-
-// Keep the endline variables
-keep provider_id treatment end*
-
-// Collapse to get means and counts
-//preserve
-//collapse (mean) end20x=end20 (count) end20n=end20
-//gen treatment = 3, before(end20x)
-//tempfile tot
-//save `tot'
-//restore
-//collapse (mean) end20x=end20 (count) end20n=end20, ///
-//	by(treatment)
-//append using `tot'
-//la def treatment 3 "Total", modify
-
-//foreach z in x n {
-//	la var end20`z' "20. Provider is Absent"
-//}
-
-// Save
-save "$op\endline_micro_3_uav.dta", replace
-
-****************************************************************
-** PROVIDER QRE MEASURES **
-// Open the Provider data
-use "$ip\endline_provider_survey_CLEAN_18022025_visit2_11032025_final.dta", clear
-
-// Set value labels
-la def yn 0 "No" 1 "Yes", replace
-
-// Keep only those variables needed for this report
-keep provider_id treatment District s3_11-s3_16 s4_07 s4_08 s4_10 s6_03 s6_08 s6_14
-
-
-// OUTCOME 22: Never Encouraged Patient to Choose a Different Method Due to Method Stockouts
-// Control/Drone/Total (79/21/100)
-recode s3_11 (1 2 3 = 0 "No") (4 = 1 "Yes"), gen(end22)
-la var end22 "22. Never Encouraged Patient to Choose a Different Method Due to Method Stockouts"
-** Drop measures from Drone facilities outside of Mahanoro
-replace end22 = . if treatment == 1 & District != "Mahanoro"
-
-
-// OUTCOME 23: Never Encouraged Patient to Use Method Other Than the One Wanted
-// Control/Drone/Total (79/21/100)
-recode s3_12 (1 2 3 = 0 "No") (4 = 1 "Yes"), gen(end23)
-la var end23	"23. Never Encouraged Patient to Use Method Other Than the One Wanted"
-** Drop measures from Drone facilities outside of Mahanoro
-replace end23 = . if treatment == 1 & District != "Mahanoro"
-
-
-// OUTCOME 24: Never Encouraged Patient to Use Long-Acting Method
-// Control/Drone/Total (79/21/100)
-recode s3_13 (1 2 3 = 0 "No") (4 = 1 "Yes"), gen(end24)
-la var end24	"24. Never Encouraged Patient to Use Long-Acting Method"
-** Drop measures from Drone facilities outside of Mahanoro
-replace end24 = . if treatment == 1 & District != "Mahanoro"
-
-
-// OUTCOME 25: Never Encouraged Patient to Use Short-Acting Method
-// Control/Drone/Total (79/21/100)
-recode s3_14 (1 2 3 = 0 "No") (4 = 1 "Yes"), gen(end25)
-la var end25	"25. Never Encouraged Patient to Use Short-Acting Method"
-** Drop measures from Drone facilities outside of Mahanoro
-replace end25 = . if treatment == 1 & District != "Mahanoro"
-
-
-// OUTCOME 26: Never Encouraged Patient to Use Permanent Method
-// Control/Drone/Total (79/21/100)
-recode s3_15 (1 2 3 = 0 "No") (4 = 1 "Yes"), gen(end26)
-la var end26	"26. Never Encouraged Patient to Use Permanent Method"
-** Drop measures from Drone facilities outside of Mahanoro
-replace end26 = . if treatment == 1 & District != "Mahanoro"
-
-
-// OUTCOME 27: Never Encouraged Patient to Use Natural Method
-// Control/Drone/Total (79/21/100)
-recode s3_16 (1 2 3 = 0 "No") (4 = 1 "Yes"), gen(end27)
-la var end27	"27. Never Encouraged Patient to Use Natural Method"
-** Drop measures from Drone facilities outside of Mahanoro
-replace end27 = . if treatment == 1 & District != "Mahanoro"
-
-
-// OUTCOME 28: There are Frequent Out of Stocks of Needed Supplies/Commodities
-// Control/Drone/Total (79/79/158)
-recode s4_07 (1 2 3 = 1 "Yes") (4 5 = 0 "No"), gen(end28)
-la var end28	"28. There are Frequent Out of Stocks of Needed Supplies/Commodities"
-
-
-// OUTCOME 29: Patients Frequently Leave without their Preferred FP Method
-// Control/Drone/Total (79/21/100)
-recode s4_08 (1 2 3 = 1 "Yes") (4 5 = 0 "No"), gen(end29)
-la var end29	"29. Patients Frequently Leave without their Preferred FP Method"
-** Drop measures from Drone facilities outside of Mahanoro
-replace end29 = . if treatment == 1 & District != "Mahanoro"
-
-
-// OUTCOME 30: I Feel Like I Have Everything I Need to Provide the Best Care
-// Control/Drone/Total (79/79/158)
-recode s4_10 (1 2 3 = 1 "Yes") (4 5 = 0 "No"), gen(end30)
-la var end30	"30. I Feel Like I Have Everything I Need to Provide the Best Care"
-
-
-// OUTCOME 31: Provider Received Their Salary Within the Last Month
-// Control/Drone/Total (79/79/158)
-recode s6_03 (1 = 1 "Yes") (2 3 4 = 0 "No"), gen(end31)
-la var end31	"31. Provider Received Their Salary Within the Last Month"
-
-
-// OUTCOME 32: Provider is Satisfied or Very Satisfied Working Here
-// Control/Drone/Total (79/79/158)
-recode s6_08 (1 2 = 1 "Yes") (3 4 = 0 "No"), gen(end32)
-la var end32 	"32. Provider is Satisfied or Very Satisfied Working Here"
-
-
-// OUTCOME 33: Number of Days Away from the Facility to Collect Supplies
-// Control/Drone/Total (79/79/158)
-gen end33 = s6_14
-la val end33 yn
-la var end33	"33. Mean Number of Days Away from the Facility to Collect Supplies"
-
-
-// Keep the endline variables
-keep provider_id treatment end*
-
-
-// Collapse to get means and counts
-//preserve
-//collapse (mean) end22x=end22 end23x=end23 end24x=end24 end25x=end25 ///
-//	end26x=end26 end27x=end27 end28x=end28 end29x=end29 end30x=end30 ///
-//	end31x=end31 end32x=end32 end33x=end33 ///
-//	(count) end22n=end22 end23n=end23 end24n=end24 end25n=end25 ///
-//	end26n=end26 end27n=end27 end28n=end28 end29n=end29 end30n=end30 ///
-//	end31n=end31 end32n=end32 end33n=end33
-//gen treatment = 3, before(end22x)
-//tempfile tot
-//save `tot'
-//restore
-//collapse (mean) end22x=end22 end23x=end23 end24x=end24 end25x=end25 ///
-//	end26x=end26 end27x=end27 end28x=end28 end29x=end29 end30x=end30 ///
-//	end31x=end31 end32x=end32 end33x=end33 ///
-//	(count) end22n=end22 end23n=end23 end24n=end24 end25n=end25 ///
-//	end26n=end26 end27n=end27 end28n=end28 end29n=end29 end30n=end30 ///
-//	end31n=end31 end32n=end32 end33n=end33, ///
-//	by(treatment)
-//append using `tot'
-//la def treatment 3 "Total", modify
-
-// Save
-save "$op\endline_micro_4_provider.dta", replace
-
-****************************************************************
-** EXIT CLIENT MEASURES **
-// Open the CEI data
-use "$ip\endline_cei_cleaned_28022025_final.dta", clear
-
-** Set value labels
-la def yn 0 "No" 1 "Yes", replace
-
-// Keep only those variables needed for this report
-keep cei_id treatment District s2_01 s2_04 s2_21 s7_* s9_01
-
-
-// OUTCOME 34: Currently Using Contraception
-// Control/Drone/Total (79/18/97)
-gen end34 = s2_01
-la val end34 yn
-la var end34	"34. Currently Using Contraception"
-** Drop measures from Drone facilities outside of Mahanoro
-replace end34 = . if treatment == 1 & District != "Mahanoro"
-
-
-// OUTCOME 35: Received Preferred Method
-// Control/Drone/Total (79/18/97)
-gen end35 = s2_04
-la val end35 yn
-la var end35	"35. Received Preferred Method"
-** Drop measures from Drone facilities outside of Mahanoro
-replace end35 = . if treatment == 1 & District != "Mahanoro"
-
-
-// OUTCOME 36: Made an Informal Payment for FP
-// Control/Drone/Total (79/18/97)
-recode s2_21 (.f=0)
-gen end36 = s2_21 > 0 if !missing(s2_21)
-la val end36 yn
-la var end36	"36. Made an Informal Payment for FP"
-** Drop measures from Drone facilities outside of Mahanoro
-replace end36 = . if treatment == 1 & District != "Mahanoro"
-
-
-// OUTCOME 37: All Experience of Care Questions That Had at Least 80/20 Variation at endline
-// Control/Drone/Total (283/293/576)
-** NOTE: The variables constructed below are those with no greater than 80% Yes
-**		 at endline
-gen end37a = s7_01		// 68.2%
-gen end37b = s7_02		// 80.39%
-gen end37c = s7_04		// 75.97%
-gen end37d = s7_05		// 53.36%
-gen end37e = s7_13		// 39.40%
-gen end37f = s7_16		// 44.88%
-la val end37* yn
-la var end37a	"37a. Did the Nurses or Other Providers Introduce Themselves to You?"
-la var end37b	"37b. Did the Nurses or Other Providers Call You By Your Name or Child's Name?"
-la var end37c	"37c. Did You Feel the Nurses and Other Staff Treated You in a Friendly Manner?"
-la var end37d	"37d. Did the Doctors, Nurses and Other Staff Show That They Cared About You?"
-la var end37e	"37e. Did the Provider Ask You if You Had Any Questions?"
-la var end37f	"37f. Did the Nurses at the Facility Talk to You About How You Were Feeling?"
-
-
-// OUTCOME 38: Facility Did Not Have the Medicines and Supplies When You Visited
-// Control/Drone/Total (283/293/576)
-recode s9_01 (1 = 0 "No") (0 = 1 "Yes"), gen(end38)
-la var end38	"38. Facility Did Not Have the Medicines and Supplies When You Visited"
-
-
-// Keep the endline variables
-keep cei_id treatment end*
-
-
-// Collapse to get means and counts
-//preserve
-//collapse (mean) end34x=end34 end35x=end35 end36x=end36 end37ax=end37a ///
-//	end37bx=end37b end37cx=end37c end37dx=end37d end37ex=end37e ///
-//	end37fx=end37f end38x=end38 ///
-//	(count) end34n=end34 end35n=end35 end36n=end36 end37an=end37a ///
-//	end37bn=end37b end37cn=end37c end37dn=end37d end37en=end37e ///
-//	end37fn=end37f end38n=end38
-//gen treatment = 3, before(end34x)
-//tempfile tot
-//save `tot'
-//restore
-//collapse (mean) end34x=end34 end35x=end35 end36x=end36 end37ax=end37a ///
-//	end37bx=end37b end37cx=end37c end37dx=end37d end37ex=end37e ///
-///	end37fx=end37f end38x=end38 ///
-//	(count) end34n=end34 end35n=end35 end36n=end36 end37an=end37a ///
-//	end37bn=end37b end37cn=end37c end37dn=end37d end37en=end37e ///
-//	end37fn=end37f end38n=end38, ///
-//	by(treatment)
-//append using `tot'
-//la def treatment 3 "Total", modify
-
-// Save
-save "$op\endline_micro_5_cei.dta", replace
 
 ****************************************************************
 ** WOMEN'S QRE MEASURES **
@@ -1098,7 +700,7 @@ la var Unmet "Unmet Status"
 recode s3_1 (1 2 = 1 "Yes") (0 = 0 "No"), gen(end39)
 la var end39	"39. Currently Using Any Contraceptive Method"
 ** Drop measures from Drone facilities outside of Mahanoro
-replace end39 = . if treatment == 1 & District != "Mahanoro"
+
 
 
 // OUTCOME 40: Currently Using a Modern Contraceptive Method
@@ -1111,7 +713,7 @@ recode end40 (.=0) if !missing(s3_1)
 la val end40 yn
 la var end40	"40. Currently Using a Modern Contraceptive Method"
 ** Drop measures from Drone facilities outside of Mahanoro
-replace end40 = . if treatment == 1 & District != "Mahanoro"
+
 
 
 // OUTCOME 41: Has Aligned and Preferred Contraceptive Use
@@ -1125,7 +727,7 @@ replace end41 = 0 if (inlist(s3_1, 1, 2) & s3_3 == 0) | (s3_1 == 0 & s3_2 == 1)
 la val end41 yn
 la var end41	"41. Has Aligned and Preferred Contraceptive Use"
 ** Drop measures from Drone facilities outside of Mahanoro
-replace end41 = . if treatment == 1 & District != "Mahanoro"
+
 
 
 // OUTCOME 42: Has Unmet Need for Contraception
@@ -1134,7 +736,7 @@ gen end42 = Unmet
 la val end42 yn
 la var end42	"42. Has Unmet Need for Contraception"
 ** Drop measures from Drone facilities outside of Mahanoro
-replace end42 = . if treatment == 1 & District != "Mahanoro"
+
 
 
 // OUTCOME 43: Obtained Method from Public Facility
@@ -1335,7 +937,7 @@ la var end77	"77. Obtained Last Method from Community Health Worker"
 
 
 // Keep the endline variables
-keep respondent treatment end* agecat attend s1_17 s1_18 s1_19 married s7_3 s2_1 pregcat lbcat lccat
+keep respondent treatment end* agecat attend s1_17 s1_18 s1_19 married s7_3 s2_1 pregcat lbcat lccat s3_5_current
 
 
 // Collapse to get means and counts
@@ -1377,201 +979,17 @@ keep respondent treatment end* agecat attend s1_17 s1_18 s1_19 married s7_3 s2_1
 //la def treatment 3 "Total", modify
 
 // Save
-save "$op/endline_micro_6_women.dta", replace
+save "$dp/endline_micro_6_women.dta", replace
 
 
 ****************************************************************
-** WOMEN'S QRE CHILD-LEVEL VACCINE MEASURES **
-**# Bookmark #1
-// Open the Women's data
-use "$ip\endline_women_20250310_final.dta", clear
-
-// Keep only those variables needed for this report
-keep respondent treatment District visit_date name_2_* dob_2_* born_type_2_* ///
-	s5_1_* s5_2_* s5_3_* s5_4_* s5_4_dob_* s5_5*_day_* s5_7_* s5_10_* ///
-	s5_12* s5_18_* s5_20_* s5_21_* s5_23_* s5_24_* s5_26_* s5_27_* s5_29_*
-
-// Reshape long
-reshape long name_2_ dob_2_ born_type_2_ s5_1_ s5_2_ s5_3_ s5_4_ s5_4_dob_ ///
-	s5_5a_day_ s5_5b_day_ s5_5c_day_ s5_5d_day_ s5_5e_day_ s5_5f_day_ ///
-	s5_5g_day_ s5_5h_day_ s5_5i_day_ s5_5j_day_ s5_5k_day_ s5_5l_day_ ///
-	s5_5m_day_ s5_5n_day_ s5_5o_day_ s5_5p_day_ s5_5q_day_ s5_7_ s5_10_ ///
-	s5_12_ s5_18_ s5_20_ s5_21_ s5_23_ s5_24_ s5_26_ s5_27_ s5_29_, ///
-	i(respondent treatment District visit_date) j(n)
-renvars *_, postd(1)
-drop if missing(name_2)
-format %td s5_4_dob
-la val s5_3 sec5_3_1
-la val s5_4 sec5_4_1
-la val s5_7 sec5_7_1
-
-order respondent treatment District visit_date n name_2 dob_2 born_type_2 ///
-	s5_1 s5_2 s5_3 s5_4 s5_4_dob s5_5a_day s5_5b_day s5_5c_day s5_5d_day ///
-	s5_5e_day s5_5f_day s5_5g_day s5_5h_day s5_5i_day s5_5j_day s5_5k_day ///
-	s5_5l_day s5_5m_day s5_5n_day s5_5o_day s5_5p_day s5_5q_day s5_7 s5_10 ///
-	s5_12 s5_18 s5_20 s5_21 s5_23 s5_24 s5_26 s5_27 s5_29
-
-** Set value labels
-la def yn 0 "No" 1 "Yes", replace
-la def yndk 0 "No" 1 "Yes" -999 "Don't Know", replace
-
-// Relabel variables and values
-la var s5_1		"Do you have a card or other document where child's vaccinations are written down?"
-la var s5_2		"Did you ever have a vaccination card for the child?"
-la var s5_3		"May I see the card or other document with the child's vaccinations?"
-la var s5_5a_day	"BCG"
-la var s5_5b_day	"DPT 1"
-la var s5_5c_day	"DPT 2"
-la var s5_5d_day	"DPT 3"
-la var s5_5e_day	"OPV 0"
-la var s5_5f_day	"OPV 1"
-la var s5_5g_day	"OPV 2"
-la var s5_5h_day	"OPV 3"
-la var s5_5i_day	"IPV"
-la var s5_5j_day	"Rotavirus 1"
-la var s5_5k_day	"Rotavirus 2"
-la var s5_5l_day	"Rotavirus 3"
-la var s5_5m_day	"Measles 1"
-la var s5_5n_day	"Measles 2"
-la var s5_5o_day	"Pneumococcal 1"
-la var s5_5p_day	"Pneumococcal 2"
-la var s5_5q_day	"Pneumococcal 3"
-la var s5_10	"Child has received BCG vaccination"
-la var s5_12	"Child has received oral polio vaccination"
-la var s5_18	"Child has received pentavalent vaccination"
-la var s5_20	"Number of times received pentavalent vaccination"
-la var s5_21	"Child has received pneumococcal vaccination"
-la var s5_23	"Number of times received pneumococcal vaccination"
-la var s5_24	"Child has received rotavirus vaccination"
-la var s5_26	"Number of times received rotavirus vaccination"
-la var s5_27	"Child has received measles vaccination"
-la var s5_29	"Number of times received measles vaccination"
-la val s5_2 yn
-la val s5_10 s5_12 s5_18 s5_21 s5_24 s5_27 yndk
-la val s5_20 s5_23 s5_26 s5_29
-la val s5_3 sec5_1_4
-
-// Calculate child age in months and years
-gen childage_d = datediff_frac(s5_4_dob, visit_date, "day")
-gen childage_w = childage_d / 7
-gen childage_m = datediff_frac(s5_4_dob, visit_date, "month")
-gen childage_y = datediff_frac(s5_4_dob, visit_date, "year")
-order childage*, after(n)
-
-// Create flag for the outcome measures
-** Create a flag for children aged less than 1 year
-gen ageflag = childage_y < 1.0
-la val ageflag yn
-la var ageflag "Children less than 1 year old"
-
-
-// OUTCOME 52: Child Never Received a Vaccine to Prevent Disease
-// Control/Drone/Total (157/190/347)
-** First, get an indicator of the number of non-zero values in the 5a_day vars
-egen daysum = rowtotal(s5_5*_day) if !missing(s5_5a_day)
-** Next, create an indicator if any of the variables s5_10-s5_27 are yes
-recode s5_10-s5_27 (-999=.)
-egen othermax = rowmax(s5_10-s5_27)
-** Create the outcome variable
-gen end52 = daysum == 0 | othermax == 0 if ageflag == 1
-recode end52 (0=.) if missing(daysum) & missing(othermax)
-la val end52 yn
-la var end52	"52. Child Under 1 Year Old Never Received a Vaccine to Prevent Disease"
-drop daysum othermax
-
-
-// OUTCOME 53: Child Received BCG
-// Control/Drone/Total (156/188/344)
-gen end53 = (s5_5a_day > 0 & !missing(s5_5a_day)) | s5_10 == 1 if ageflag == 1
-la val end53 yn
-recode end53 (0=.) if missing(s5_5a_day) & missing(s5_10)
-la var end53	"53. Child Under 1 Year Old Received BCG"
-
-
-// OUTCOME 54a: Child Received at Least One Dose of DTP/Pentavalent
-// Control/Drone/Total (155/189/344)
-egen daysum = rowtotal(s5_5b_day s5_5c_day s5_5d_day) if !missing(s5_5b_day)
-gen end54a = (daysum > 0 & !missing(daysum)) | s5_18 == 1 if ageflag == 1
-replace end54a = . if missing(daysum) & missing(s5_18)
-la val end54a yn
-la var end54a	"54a. Child Under 1 Year Old Received at Least One Dose of DTP/Pentavalent"
-drop daysum
-
-
-// OUTCOME 54b: Child Received Three Doses of DTP/Pentavalent
-// Control/Drone/Total (155/189/344)
-gen daycount = inrange(s5_5b_day, 1, 44) & inrange(s5_5c_day, 1, 44) & ///
-	inrange(s5_5d_day, 1, 44) if !missing(s5_5b_day)
-gen end54b = (daycount == 1 & !missing(daycount)) | ///
-	(s5_18 == 1 & inrange(s5_20, 3, 6)) if ageflag == 1
-replace end54b = . if missing(daycount) & missing(s5_18)
-la val end54b yn
-la var end54b	"54b. Child Under 1 Year Old Received Three Doses of DTP/Pentavalent"
-drop daycount
-
-
-// OUTCOME 55: Child Received Pneumococcal
-// Control/Drone/Total (156/189/345)
-egen daysum = rowtotal(s5_5o_day s5_5p_day s5_5q_day) if !missing(s5_5o_day)
-gen end55 = (daysum > 0 & !missing(daysum)) | s5_21 == 1 if ageflag == 1
-replace end55 = . if missing(daysum) & missing(s5_21)
-la val end55 yn
-la var end55	"55. Child Under 1 Year Old Received at Least One Dose of Pneumococcal"
-drop daysum
-
-
-// OUTCOME 56: Child Received Rotavirus
-// Control/Drone/Total (151/188/339)
-egen daysum = rowtotal(s5_5j_day s5_5k_day s5_5l_day) if !missing(s5_5j_day)
-gen end56 = (daysum > 0 & !missing(daysum)) | s5_24 == 1 if ageflag == 1
-replace end56 = . if missing(daysum) & missing(s5_24)
-la val end56 yn
-la var end56	"56. Child Under 1 Year Old Received at Least One Dose of Rotavirus"
-drop daysum
-
-
-// OUTCOME 57: Child Received Measles
-// Control/Drone/Total (155/187/342)
-egen daysum = rowtotal(s5_5m_day s5_5n_day) if !missing(s5_5m_day)
-gen end57 = (daysum > 0 & !missing(daysum)) | s5_27 == 1 if ageflag == 1
-replace end57 = . if missing(daysum) & missing(s5_27)
-la val end57 yn
-la var end57	"57. Child Under 1 Year Old Received at Least One Dose of Measles"
-drop daysum
-
-
-// Keep the endline variables
-keep respondent treatment end*
-
-
-// Collapse to get means and counts
-//preserve
-//collapse (mean) end52x=end52 end53x=end53 end54ax=end54a end54bx=end54b ///
-//	end55x=end55 end56x=end56 end57x=end57 ///
-//	(count) end52n=end52 end53n=end53 end54an=end54a end54bn=end54b ///
-//	 end55n=end55 end56n=end56 end57n=end57
-//gen treatment = 3, before(end52x)
-//tempfile tot
-//save `tot'
-//restore
-//collapse (mean) end52x=end52 end53x=end53 end54ax=end54a end54bx=end54b ///
-//	end55x=end55 end56x=end56 end57x=end57 ///
-//	(count) end52n=end52 end53n=end53 end54an=end54a end54bn=end54b ///
-//	 end55n=end55 end56n=end56 end57n=end57, ///
-//	by(treatment)
-//append using `tot'
-//la def treatment 3 "Total", modify
-
-// Save
-save "$op\endline_micro_7_women_child_vaccine.dta", replace
-
 ****************************************************************
 ** WOMEN'S QRE CHILD-LEVEL HEALTH MEASURES **
 // Open the Women's data
-use "$ip\endline_women_20250310_final.dta", clear
+use "$ip/endline_women_20250310_final.dta", clear
 
 // Keep only those variables needed for this report
-keep respondent treatment s6_10_* s6_12_*
+keep facility_id respondent treatment s6_10_* s6_12_*
 
 // Reshape long
 reshape long s6_10_ s6_12_, ///
@@ -1602,7 +1020,7 @@ la var end59	"59. Among Children with Fever in Last Two Weeks, Pct Diagnosed wit
 
 
 // Keep the endline variables
-keep respondent treatment end*
+keep facility_id respondent treatment end*
 
 
 // Collapse to get means and counts
@@ -1620,116 +1038,4 @@ keep respondent treatment end*
 //la def treatment 3 "Total", modify
 
 // Save
-save "$op\endline_micro_8_women_child_health.dta", replace
-
-
-****************************************************************
-** WOMEN'S QRE ZERO DOSE AND UNDER-IMMUNIZED **
-// Open the Women's data
-use "$ip\endline_women_20250310_final.dta", clear
-
-// Keep only those variables needed for this report
-keep respondent treatment District visit_date s5_childage_* name_2_* s5_4_dob_* ///
-	born_type_2_* s5_1_* s5_5b_day_* s5_5c_day_* s5_5d_day_* s5_18_* s5_20_*
-
-// Reshape long
-reshape long name_2_ s5_4_dob_ born_type_2_ s5_childage_ s5_1_ s5_5b_day_ ///
-	s5_5c_day_ s5_5d_day_ s5_18_ s5_20_, ///
-	i(respondent treatment District visit_date) j(n)
-renvars *_, postd(1)
-drop if missing(name_2)
-destring s5_childage, replace
-
-** Set value labels
-la def yn 0 "No" 1 "Yes", replace
-la def yndk 0 "No" 1 "Yes" 99 "Don't Know", replace
-
-// Relabel variables and values
-la var s5_1			"Do you have a card or other document where child's vaccinations are written down?"
-la var s5_5b_day	"DPT 1"
-la var s5_5c_day	"DPT 2"
-la var s5_5d_day	"DPT 3"
-la var s5_18		"Child has received pentavalent vaccination"
-la var s5_20		"Number of times received pentavalent vaccination"
-la val s5_18 yndk
-la val s5_20
-
-// Calculate child age in months and years
-gen childage_d = datediff_frac(s5_4_dob, visit_date, "day")
-gen childage_w = childage_d / 7
-gen childage_m = datediff_frac(s5_4_dob, visit_date, "month")
-gen childage_y = datediff_frac(s5_4_dob, visit_date, "year")
-order childage*, after(n)
-
-// Create flags for the outcome measures
-** Create a flag for children in the range of 18 weeks to less than 1 year
-gen ageflag1 = childage_w > 18.0 & childage_y < 1.0
-la val ageflag1 yn
-la var ageflag1 "Children 18 weeks to less than 1 year"
-** Create a flag for children 12 to 23 months
-gen ageflag2 = childage_y >= 1.0 & childage_y < 2.0
-la val ageflag2 yn
-la var ageflag2 "Children 12 to 23 months"
-
-
-// OUTCOME 78: Zero Dose Rate
-// Zero-dose children as infants who have not received the first dose of 
-//  diphtheria, tetanus, and pertussis-containing vaccine (DTP1) by the end 
-//  of their first year of life.
-
-** 78a: Children 18 Weeks to Less Than 1 Year
-gen end78a = s5_5b_day == 0 | s5_18 == 0 if ageflag1 == 1
-la val end78a yn
-la var end78a	"78a. Zero-Dose Rate Among Children 18 Weeks to Less Than 1 Year Old"
-
-** 78b: Children 12 to 23 Months
-gen end78b = s5_5b_day == 0 | s5_18 == 0 if ageflag2 == 1
-la val end78b yn
-la var end78b	"78b. Zero-Dose Rate Among Children 12 to 23 Months Old"
-
-
-// OUTCOME 79: Under-Immunized Rate
-// Under-immunised children are defined as infants who have not received the 
-//  third dose of DTP-containing vaccine (DTP3) by the end of their first 
-//  year of life.
-
-** 79a: Children 18 Weeks to Less Than 1 Year
-gen vc = s5_5b_day > 0 & s5_5d_day == 0 if !missing(s5_5b_day)
-gen vo = s5_18 == 1 & inrange(s5_20, 1, 2) if inlist(s5_18, 0, 1)
-gen end79a = vc == 1 | vo == 1 if ageflag1 == 1
-la val end79 yn
-la var end79a	"79a. Under-Immunized Rate Among Children 18 Weeks to Less Than 1 Year Old"
-drop vc vo
-
-** 79b: Children 12 to 23 Months
-gen vc = s5_5b_day > 0 & s5_5d_day == 0 if !missing(s5_5b_day)
-gen vo = s5_18 == 1 & inrange(s5_20, 1, 2) if inlist(s5_18, 0, 1)
-gen end79b = vc == 1 | vo == 1 if ageflag2 == 1
-la val end79b yn
-la var end79b	"79b. Under-Immunized Rate Among Children 12 to 23 Months Old"
-drop vc vo
-
-// Keep the endline variables
-keep respondent treatment end*
-
-
-// Collapse to get means and counts
-//preserve
-//collapse (mean) end78ax=end78a end78bx=end78b end79ax=end79a ///
-//	end79bx=end79b ///
-//	(count) end78an=end78a end78bn=end78b end79an=end79a end79bn=end79b
-//gen treatment = 3, before(end78ax)
-//tempfile tot
-//save `tot'
-//restore
-//collapse (mean) end78ax=end78a end78bx=end78b end79ax=end79a ///
-//	end79bx=end79b ///
-//	(count) end78an=end78a end78bn=end78b end79an=end79a end79bn=end79b, ///
-//	by(treatment)
-//append using `tot'
-//la def treatment 3 "Total", modify
-
-// Save
-save "$op\endline_micro_9_women_child_zerodose_underimmuniz.dta", replace
-
-
+save "$dp/endline_micro_8_women_child_health.dta", replace

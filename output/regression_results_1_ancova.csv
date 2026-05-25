@@ -1,0 +1,34 @@
+Outcome,Model,Effect_Size,Standard_Error,P_value,Observations,Baseline_Control_Mean,Magnitude_Percent
+1a. Out of Stock of Vaccine Janssen at Time of Survey,ANCOVA,.14279552,.093968496,.13245542,83,.11363637,125.66006
+1b. Out of Stock of Vaccine AstraZeneca at Time of Survey,ANCOVA,.024480915,.025620976,.34213197,83,.022727273,107.71602
+1c. Out of Stock of Vaccine Pfizer at Time of Survey,ANCOVA,0,0,,83,.022727273,0
+1. Out of Stock of Any Vaccine at Time of Survey,ANCOVA,.010887187,.092050441,.90613967,83,.52272725,2.0827663
+1d. Out of Stock of Pentavalent (DTC/Hepatitis B/Hib) at Time of Survey,ANCOVA,0,0,,83,.022727273,0
+1e. Out of Stock of Vaccine Pollio Injectable (VPI) at Time of Survey,ANCOVA,-.043695584,.072208457,.54676294,83,.090909094,-48.065144
+1f. Out of Stock of Vaccine Pollio Oral (VPO) at Time of Survey,ANCOVA,-.030385805,.030549509,.32283679,83,.022727273,-133.69754
+1g. Out of Stock of Vaccine Rotarix at Time of Survey,ANCOVA,-.07251408,.06328883,.25522548,83,.06818182,-106.35399
+1h. Out of Stock of Vaccine Anti Rougeoleux (VAR) at Time of Survey,ANCOVA,-.013085094,.015729951,.40790471,83,.045454547,-28.787209
+1i. Out of Stock of Vaccine Anti Tetanique (VAT) at Time of Survey,ANCOVA,.084009677,.10881227,.44229791,83,.18181819,46.205322
+1j. Out of Stock of Vaccine Anti Pneumococcique (PCV10) at Time of Survey,ANCOVA,.02475352,.10947417,.82167625,83,.29545453,8.3781147
+1k. Out of Stock of Vaccine BCG at Time of Survey,ANCOVA,.17209606,.10755304,.11342153,83,.29545453,58.247898
+2. Out of Stock of Malaria Tests at Time of Survey,ANCOVA,-.075464703,.046894588,.11053793,107,.037037037,-203.7547
+3. Out of Stock of Malaria Tests in the 3 Months Before Survey,ANCOVA,-.014950496,.038885359,.70146716,98,.03846154,-38.871292
+4. Out of Stock of Antimalarial Medicine at Time of Survey,ANCOVA,-.035578229,.038405109,.35634613,107,.09259259,-38.424488
+5. Out of Stock of Any Contraceptive Method at Time of Survey,ANCOVA,.017763857,.055147808,.7480011,107,.68518519,2.5925629
+5a. Out of Stock of Implants at Time of Survey,ANCOVA,.048050724,.087583795,.58441603,107,.22222222,21.622826
+5b. Out of Stock of Injectable Depo Provera at Time of Survey,ANCOVA,-.074759662,.088126637,.39817092,107,.55555558,-13.456738
+5c. Out of Stock of Injectable Syana Press at Time of Survey,ANCOVA,-.08034043,.078665957,.30944422,107,.42592594,-18.862535
+5d. Out of Stock of Pills at Time of Survey,ANCOVA,.058435526,.097916134,.55191904,107,.2962963,19.721991
+5e. Out of Stock of Male Condoms at Time of Survey,ANCOVA,.17839353,.083578713,.035112001,107,.09259259,192.66501
+6. Out of Stock of Any Contraceptive Method in the 3 Months Before Survey,ANCOVA,-.15472996,.095991701,.11056251,89,.54901963,-28.182959
+7. Out of Stock of LARC Removal Supplies at Time of Survey,ANCOVA,-.15636258,.20560026,.45019349,56,.20930232,-74.706566
+8. Out of Stock of LARC Removal Supplies in the 3 Months Before Survey,ANCOVA,0,0,,56,0,
+12. Number of Providers Present Today,ANCOVA,-.12738732,.28259403,.65306991,107,3.2037036,-3.9762516
+13. Rated Emergency Reordering Procedure Somewhat or Very Easy,ANCOVA,-.064371146,.062023833,.30170378,107,.11111111,-57.934029
+14. Ordered Medical Commodities More Frequently Than Every 3 Months,ANCOVA,.12818629,.074518815,.088316642,107,.83333331,15.382354
+15. Number of FP Visits Completed in Last Month (All Methods Combined),ANCOVA,-17.47052,24.62089,.4809081,57,121.97826,-14.32265
+16. Number of New Clients Receiving FP in the Last Month,ANCOVA,-1.2869564,7.3234119,.86115009,56,10.565217,-12.181069
+17. Out of Stock Prevented Helping a Patient in the Last Six Months,ANCOVA,-.018109053,.056935344,.75106853,106,.27777779,-6.519259
+18. In Past 6 Months Staff Traveled to District Pharmacy to Place Emergency Orde,ANCOVA,-.13310105,.075864069,.082240194,107,.35185185,-37.828716
+19. Facility Has Working Fridge for Cold Chain Storage,ANCOVA,.00096972205,.047836941,.98386496,107,.81481481,.11901134
+21. Informal Payment for Contraception,ANCOVA,-.071721837,.1404784,.61134136,68,.46296296,-15.491917

@@ -23,7 +23,7 @@
 // =========================================================================
 
 // --- Edit this single line for your machine ---
-global repo = "/Users/sysylvia/Documents/Repos/madagascar-drone-replication"
+global repo = "/Users/takhona/madagascar-drone-replication"
 
 // --- Derived paths (do not edit unless you reorganized the repo) ---
 global od = "$repo"

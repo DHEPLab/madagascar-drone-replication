@@ -1,0 +1,34 @@
+Outcome,Model,Effect_Size,Standard_Error,P_value,Observations,Baseline_Control_Mean,Magnitude_Percent
+1a. Out of Stock of Vaccine Janssen at Time of Survey,DID,.12191851,.12997891,.35065505,178,.11363637,107.28828
+1b. Out of Stock of Vaccine AstraZeneca at Time of Survey,DID,.047033045,.034632713,.17769781,178,.022727273,206.94539
+1c. Out of Stock of Vaccine Pfizer at Time of Survey,DID,-.024009781,.042730186,.57552642,178,.022727273,-105.64304
+1. Out of Stock of Any Vaccine at Time of Survey,DID,-.04797592,.14835477,.74712092,178,.52272725,-9.1780024
+1d. Out of Stock of Pentavalent (DTC/Hepatitis B/Hib) at Time of Survey,DID,-.092890464,.057685826,.11068941,178,.022727273,-408.71805
+1e. Out of Stock of Vaccine Pollio Injectable (VPI) at Time of Survey,DID,-.043406829,.096006125,.65222013,178,.090909094,-47.747513
+1f. Out of Stock of Vaccine Pollio Oral (VPO) at Time of Survey,DID,-.070022136,.054271728,.20014128,178,.022727273,-308.09741
+1g. Out of Stock of Vaccine Rotarix at Time of Survey,DID,-.045028482,.082179256,.58503878,178,.06818182,-66.041771
+1h. Out of Stock of Vaccine Anti Rougeoleux (VAR) at Time of Survey,DID,-.071263291,.063644111,.26568791,178,.045454547,-156.77925
+1i. Out of Stock of Vaccine Anti Tetanique (VAT) at Time of Survey,DID,.1938107,.14140448,.17375995,178,.18181819,106.59589
+1j. Out of Stock of Vaccine Anti Pneumococcique (PCV10) at Time of Survey,DID,-.02848199,.13712189,.83590245,178,.29545453,-9.6400585
+1k. Out of Stock of Vaccine BCG at Time of Survey,DID,.14753643,.14152008,.29984805,178,.29545453,49.935406
+2. Out of Stock of Malaria Tests at Time of Survey,DID,-.05520615,.057110183,.33587351,216,.037037037,-149.05661
+3. Out of Stock of Malaria Tests in the 3 Months Before Survey,DID,-.14836213,.066006824,.026628513,207,.03846154,-385.74152
+4. Out of Stock of Antimalarial Medicine at Time of Survey,DID,-.057302587,.074148409,.44132325,216,.09259259,-61.886791
+5. Out of Stock of Any Contraceptive Method at Time of Survey,DID,.079315163,.10964923,.47102645,216,.68518519,11.575727
+5a. Out of Stock of Implants at Time of Survey,DID,.11740042,.10186494,.251656,216,.22222222,52.830189
+5b. Out of Stock of Injectable Depo Provera at Time of Survey,DID,.038434662,.1482258,.79589891,216,.55555558,6.9182391
+5c. Out of Stock of Injectable Syana Press at Time of Survey,DID,.0017470301,.12782501,.9891206,216,.42592594,.41017228
+5d. Out of Stock of Pills at Time of Survey,DID,.21278825,.12944821,.10312352,216,.2962963,71.81604
+5e. Out of Stock of Male Condoms at Time of Survey,DID,.1160028,.11244694,.30455369,216,.09259259,125.28302
+6. Out of Stock of Any Contraceptive Method in the 3 Months Before Survey,DID,-.12917824,.12622382,.30849046,194,.54901963,-23.528893
+7. Out of Stock of LARC Removal Supplies at Time of Survey,DID,-.18909182,.1654693,.25627303,144,.20930232,-90.343864
+8. Out of Stock of LARC Removal Supplies in the 3 Months Before Survey,DID,0,0,,144,0,
+12. Number of Providers Present Today,DID,.19566737,.32477152,.5481196,216,3.2037036,6.1075363
+13. Rated Emergency Reordering Procedure Somewhat or Very Easy,DID,-.30048916,.10865004,.0066830833,216,.11111111,-270.44025
+14. Ordered Medical Commodities More Frequently Than Every 3 Months,DID,.18763103,.10130518,.066737287,216,.83333331,22.515724
+15. Number of FP Visits Completed in Last Month (All Methods Combined),DID,69.236092,30.424688,.026119485,124,121.97826,56.761013
+16. Number of New Clients Receiving FP in the Last Month,DID,2.55094,5.8344574,.66337925,123,10.565217,24.144701
+17. Out of Stock Prevented Helping a Patient in the Last Six Months,DID,-.084609024,.10470899,.42084399,215,.27777779,-30.459249
+18. In Past 6 Months Staff Traveled to District Pharmacy to Place Emergency Orde,DID,-.2267645,.11849241,.058299612,216,.35185185,-64.44886
+19. Facility Has Working Fridge for Cold Chain Storage,DID,.00069881201,.060916997,.99086839,216,.81481481,.085763291
+21. Informal Payment for Contraception,DID,.11640212,.17137367,.49933204,136,.46296296,25.142857
