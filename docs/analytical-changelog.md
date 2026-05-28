@@ -5,7 +5,7 @@ This document is the principal Reviewer 2 deliverable, alongside the reproducibi
 > **Editor / AE direction:** "Referee 2 notes substantial changes in sample size (\~380 to \~2800 observations), changes in point estimates and standard errors, and possible duplication/errors in the ANCOVA and DID tables. Please: clearly explain the analytical changes between versions, verify and correct the ANCOVA/DID tables and results, and provide code and a reproducibility package to ensure the findings can be independently verified."
 
 ::: callout-note
-The previous analysis (R0) excluded an entire district of facilities, Mahanoro. (I honestly don't know why, Brian, Kat and Tara would know more). But as the analysis was meant to be intention to treat, meaning all randomized facilities included regardless of outcomes, I included this district in the revised version. I believe this is the main reason the sample size changed. Tara and Kat would know whether this was noted in the response to reviewers.
+From Takhona: The previous analysis excluded facilities outside Mahanoro for women's outcomes. ( Brian, Kat and Tara would know more). But as the analysis was meant to be intention to treat, meaning all randomized facilities included regardless of outcomes, Tara recommended that I include these facilities in the revised version. I believe this is the main reason the sample size changed. Tara and Kat can expand further in the response to reviewers.
 :::
 
 ------------------------------------------------------------------------
