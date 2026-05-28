@@ -1,10 +1,10 @@
 
 /*
-SCRIPT: 		Madagascar_May2025_Report_Prep_01_Baseline.do
+SCRIPT: 		Prep_01_Baseline.do
 AUTHOR:			Brian Frizzelle & Tara Templin
 MODIFIED:       Takhona Hlatshwako
 DATE:			March 24, 2025
-LAST UPDATED:	May 24, 2026
+LAST UPDATED:	May 28, 2026
 */
 
 
@@ -22,29 +22,6 @@ drop _merge
 
 // Drop facilities that did not consent
 drop if consent == 0
-
-// Keep only those variables needed for this report
-** keep facility_id treatment District ///
-**	s6_01_* s11_14			///	Outcome 1
-**	s4_06					/// Outcome 2
-**	s4_07					/// Outcome 3
-**	s4_01					/// Outcome 4
-**	stock_fp* s2_20_*		/// Outcome 5
-**	s2_21_*					/// Outcome 6
-**	s2_28_*					/// Outcome 7
-**	s2_29_*					/// Outcome 8
-**	s1_1a_1-s1_1a_6			/// Outcome 12
-**	s1_04					/// Outcome 13
-**	s1_12					/// Outcome 14
-**	s2_19_c-s2_19_m			/// Outcome 15
-**	s2_19_p-s2_19_z			/// Outcome 16
-**	s10_01					/// Outcome 17
-**	s10_14					/// Outcome 18
-**	s11_14					/// Outcome 19
-**	s2_02_*					//  Outcome 21
-
-//Added baseline variables
-// Staff Present Today
 
 * Calculate the number of provides at each facility
 egen NumProviders = rowtotal(s1_1a-s1_1f)
@@ -78,8 +55,6 @@ la def npre 0 "    No Providers" 1 "    1 Provider" 2 "    2 Providers" ///
 	6 "    6 Providers", replace
 la val npre npre
 
-
-//keep s0_employee nprv npre s1_02 s1_03 s1_04 s1_07 s1_08 s1_09 s1_11 s1_12 s1_13 s1_15
 
 // OUTCOME 1: Out of Stock Vaccines
 // Control/Drone/Total (44/42/86)
@@ -187,16 +162,12 @@ merge 1:1 facility_id using `b05'
 drop _merge
 ** Apply value labels
 la val base05* yn
-** Drop measures from Drone facilities outside of Mahanoro
-
 
 
 // OUTCOME 6: Out of Stock of Any Contraceptive Method in 3 Months Before Survey
 // Control/Drone/Total (51/13/64)
 egen base06 = rowmax(s2_21_*)
 la var base06 	"6. Out of Stock of Any Contraceptive Method in the 3 Months Before Survey"
-** Drop measures from Drone facilities outside of Mahanoro
-
 
 
 // OUTCOME 7: Out of Stock of LARC Removal Supplies at Time of Survey
@@ -224,8 +195,6 @@ merge 1:1 facility_id using `b07'
 drop _merge
 ** Apply value labels
 la val base07 yn
-** Drop measures from Drone facilities outside of Mahanoro
-
 
 
 // OUTCOME 8: Out of Stock of LARC Removal Supplies in 3 Months Before Survey
@@ -253,8 +222,6 @@ merge 1:1 facility_id using `b08'
 drop _merge
 ** Apply value labels
 la val base08 yn
-** Drop measures from Drone facilities outside of Mahanoro
-
 
 
 // OUTCOME 12: Number of Providers Present Today
@@ -340,49 +307,6 @@ replace base21 = . if treatment == 1 & District != "Mahanoro"
 // Keep the baseline variables
 keep facility_id treatment base* s0_employee nprv npre s1_02 s1_03 s1_04 s1_07 s1_08 s1_09 s1_11 s1_12 s1_13 s1_15
 
-// Collapse to get mean and counts
-// preserve
-// collapse (mean) base01x=base01 base01ax=base01a base01bx=base01b base01cx=base01c ///
-//collapse (mean) base01x=base01 ///
-//	base01dx=base01d base01ex=base01e base01fx=base01f base01gx=base01g ///
-//	base01hx=base01h base01ix=base01i base01jx=base01j base01kx=base01k ///
-//	base02x=base02 base03x=base03 base04x=base04 base05x=base05 ///
-//	base05ax=base05a base05bx=base05b base05cx=base05c base05dx=base05d ///
-//	base05ex=base05e base06x=base06 base07x=base07 base08x=base08 ///
-//	base12x=base12 base13x=base13 base14x=base14 base15x=base15 base16x=base16 ///
-//	base17x=base17 base18x=base18 base19x=base19 base21x=base21 ///
-//	(count) base01n=base01 ///
-//	base01dn=base01d base01en=base01e base01fn=base01f base01gn=base01g ///
-//	base01hn=base01h base01in=base01i base01jn=base01j base01kn=base01k ///
-//	base02n=base02 base03n=base03 base04n=base04 base05n=base05 ///
-//	base05an=base05a base05bn=base05b base05cn=base05c base05dn=base05d ///
-//	base05en=base05e base06n=base06 base07n=base07 base08n=base08 ///
-//	base12n=base12 base13n=base13 base14n=base14 base15n=base15 base16n=base16 ///
-//	base17n=base17 base18n=base18 base19n=base19 base21n=base21
-//gen treatment = 3, before(base01x)
-//tempfile tot
-//save `tot'
-//restore
-//collapse (mean) base01x=base01 ///
-//	base01dx=base01d base01ex=base01e base01fx=base01f base01gx=base01g ///
-//	base01hx=base01h base01ix=base01i base01jx=base01j base01kx=base01k ///
-//	base02x=base02 base03x=base03 base04x=base04 base05x=base05 ///
-//	base05ax=base05a base05bx=base05b base05cx=base05c base05dx=base05d ///
-//	base05ex=base05e base06x=base06 base07x=base07 base08x=base08 ///
-//	base12x=base12 base13x=base13 base14x=base14 base15x=base15 base16x=base16 ///
-//	base17x=base17 base18x=base18 base19x=base19 base21x=base21 ///
-//	(count) base01n=base01 ///
-//	base01dn=base01d base01en=base01e base01fn=base01f base01gn=base01g ///
-//	base01hn=base01h base01in=base01i base01jn=base01j base01kn=base01k ///
-//	base02n=base02 base03n=base03 base04n=base04 base05n=base05 ///
-//	base05an=base05a base05bn=base05b base05cn=base05c base05dn=base05d ///
-//	base05en=base05e base06n=base06 base07n=base07 base08n=base08 ///
-//	base12n=base12 base13n=base13 base14n=base14 base15n=base15 base16n=base16 ///
-//	base17n=base17 base18n=base18 base19n=base19 base21n=base21, ///
-//	by(treatment)
-//append using `tot'
-//la def treatment 3 "Total", modify
-
 // Save
 save "$dp/baseline_micro_1_facility.dta", replace
 
@@ -401,41 +325,6 @@ drop treatment
 merge m:1 facility_id using "$dp/baseline_drone_treatment_district.dta", ///
 	keepusing(District treatment)
 drop _merge
-
-// Keep only those variables needed for this report
-/*
-keep respondent treatment District ///
-	s3_1					/// Outcome 39
-	s3_5					/// Outcome 40
-	s3_2 s3_3				/// Outcome 41 & 45
-**# Bookmark #47
-	????					/// Outcome 42
-	s3_8					/// Outcome 43
-	s3_14					/// Outcome 44
-	s3b_2 s3b_3 s3b_4 s3b_5	/// Outcome 46
-	s3b_7					/// Outcome 47
-	s3b_8					/// Outcome 48
-	s3b_16					/// Outcome 49
-	s3b_22					/// Outcome 50
-	s3b_25					/// Outcome 51
-	s10_0					/// Outcome 60
-	s10_1					/// Outcome 61
-	s10_2					/// Outcome 62
-	s10_3					/// Outcome 63
-	s10_4					/// Outcome 64
-	s10_5					/// Outcome 65
-	s10_6					/// Outcome 66
-	s10_7					/// Outcome 67
-	s10_9					/// Outcome 68
-	s10_10					/// Outcome 69
-	s11_6					/// Outcome 70
-	s11_13 s11_8			/// Outcome 71
-	s11_14					/// Outcome 72
-	s11_15					/// Outcome 73
-	s11_16					/// Outcome 74
-	s11_17					/// Outcome 75
-	s11_18					//  Outcome 76
-*/
 
 
 * Create categories for age
@@ -934,52 +823,9 @@ recode s11_18 (1=1 "Yes") (2/4=0 "No") if s11_8 == 1, gen(base76)
 la var base76	"76. Those Very Confident in Receiving Vaccinations at the Closest Facility"
 
 
-// OUTCOME 84: Source of Method When Last Obtained
-// NOTE: THIS IS ENDLINE ONLY!!
-// la var base84	"84. Source of Method When Last Obtained"
-
-
 // Keep the baseline variables
 keep respondent treatment base* agecat attend s1_17 s1_18 s1_19 married s7_3 s2_1 pregcat lbcat lccat s3_5_current 
 
-
-// Collapse to get means and counts
-//preserve
-//collapse (mean) base39x=base39 base40x=base40 base41x=base41 base42x=base42 ///
-//	base43x=base43 base44x=base44 base45x=base45 base46x=base46 base47x=base47 ///
-//	base48x=base48 base49x=base49 base50x=base50 base51x=base51 base60x=base60 ///
-//	base61x=base61 base62x=base62 base63x=base63 base64x=base64 base65x=base65 ///
-//	base66x=base66 base67x=base67 base68x=base68 base69x=base69 base70x=base70 ///
-//	base71x=base71 base72x=base72 base73x=base73 base74x=base74 base75x=base75 ///
-//	base76x=base76 ///
-//	(count) base39n=base39 base40n=base40 base41n=base41 base42n=base42 ///
-//	base43n=base43 base44n=base44 base45n=base45 base46n=base46 base47n=base47 ///
-//	base48n=base48 base49n=base49 base50n=base50 base51n=base51 base60n=base60 ///
-//	base61n=base61 base62n=base62 base63n=base63 base64n=base64 base65n=base65 ///
-//	base66n=base66 base67n=base67 base68n=base68 base69n=base69 base70n=base70 ///
-//	base71n=base71 base72n=base72 base73n=base73 base74n=base74 base75n=base75 ///
-//	base76n=base76
-//gen treatment = 3, before(base39x)
-//tempfile tot
-//save `tot'
-//restore
-//collapse (mean) base39x=base39 base40x=base40 base41x=base41 base42x=base42 ///
-//	base43x=base43 base44x=base44 base45x=base45 base46x=base46 base47x=base47 ///
-//	base48x=base48 base49x=base49 base50x=base50 base51x=base51 base60x=base60 ///
-//	base61x=base61 base62x=base62 base63x=base63 base64x=base64 base65x=base65 ///
-//	base66x=base66 base67x=base67 base68x=base68 base69x=base69 base70x=base70 ///
-//	base71x=base71 base72x=base72 base73x=base73 base74x=base74 base75x=base75 ///
-//	base76x=base76 ///
-//	(count) base39n=base39 base40n=base40 base41n=base41 base42n=base42 ///
-//	base43n=base43 base44n=base44 base45n=base45 base46n=base46 base47n=base47 ///
-//	base48n=base48 base49n=base49 base50n=base50 base51n=base51 base60n=base60 ///
-//	base61n=base61 base62n=base62 base63n=base63 base64n=base64 base65n=base65 ///
-//	base66n=base66 base67n=base67 base68n=base68 base69n=base69 base70n=base70 ///
-//	base71n=base71 base72n=base72 base73n=base73 base74n=base74 base75n=base75 ///
-//	base76n=base76, ///
-//	by(treatment)
-//append using `tot'
-//la def treatment 3 "Total", modify
 
 // Save
 save "$dp/baseline_micro_6_women.dta", replace
@@ -1031,20 +877,6 @@ la var base59	"59. Among Children with Fever in Last Two Weeks, Pct Diagnosed wi
 // Keep the baseline variables
 keep facility_id respondent treatment base*
 
-
-// Collapse to get means and counts
-//preserve
-//collapse (mean) base58x=base58 base59x=base59 ///
-//	(count) base58n=base58 base59n=base59
-//gen treatment = 3, before(base58x)
-//tempfile tot
-//save `tot'
-//restore
-//collapse (mean) base58x=base58 base59x=base59 ///
-//	(count) base58n=base58 base59n=base59, ///
-//	by(treatment)
-//append using `tot'
-//la def treatment 3 "Total", modify
 
 // Save
 save "$dp/baseline_micro_8_women_child_health.dta", replace
