@@ -3,7 +3,7 @@
 ## Source paths (canonical)
 
 | Asset | Location |
-|------------------------------------|------------------------------------|
+|----|----|
 | Scripts (R1 source) | OneDrive › *Tumlinson, Kat - Madagascar Drone Project* › *Data* › *Analysis and Reports* › *May 2025 Report* › *Scripts* |
 | Raw data (baseline) | OneDrive › *Tumlinson, Kat - Madagascar Drone Project* › *Data* › *Baseline Data* |
 | Raw data (endline) | OneDrive › *Tumlinson, Kat - Madagascar Drone Project* › *Data* › *Endline Data* |
@@ -15,7 +15,7 @@
 The prep scripts produce per-family intermediate files using a stable numeric index. This index appears in result filenames (`regression_results_<N>_<estimator>.csv`) and is the canonical reference.
 
 | \# | Family | Baseline file | Endline file |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | 1 | Facility | `baseline_1_facility.dta` | `endline_1_facility.dta` |
 | 2 | CHW (community health worker) | `baseline_2_chw.dta` | `endline_2_chw.dta` |
 | 3 | UAV (drone operations) | `baseline_3_uav.dta` | `endline_3_uav.dta` |
@@ -47,7 +47,7 @@ The scripts expect raw `.dta` extracts in `data/raw/` (or wherever `$ip` points 
 -   `endline_women_20250310_final.dta`
 
 | File (in `data/raw/`) | Used by script | Unit of observation | Wave | Notes |
-|---------------|---------------|---------------|---------------|---------------|
+|----|----|----|----|----|
 | `facility_audit_cleaned_20231013_working.dta` | Prep_01_Baseline | facility | baseline | confirmed by code inspection |
 | `baseline_drone_treatment_district.dta` | Prep_01_Baseline | facility | baseline | confirmed; provides treatment + district merge |
 | `women_cleaned_20240607_working.dta` | Prep_01_Baseline | women | baseline | confirmed by code inspection |
@@ -59,7 +59,7 @@ The scripts expect raw `.dta` extracts in `data/raw/` (or wherever `$ip` points 
 ## Variable dictionary
 
 | Variable | Label | Source file | Source var | Derivation | Allowed values | Used in |
-|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+|----|----|----|----|----|----|----|
 | `base01`, `end01` | 1\. Out of Stock of Any Vaccine at Time of Survey | `Prep_01_Baseline.do`, `Prep_02_Endline.do` | *Raw survey var* | *Recoded in prep script* | 0/1 (no/yes) | Table 2 |
 | `base01a`, `end01a` | 1a. Out of Stock of Vaccine Janssen at Time of Survey | `Prep_01_Baseline.do`, `Prep_02_Endline.do` | *Raw survey var* | *Recoded in prep script* | 0/1 (no/yes) | Table 2 |
 | `base01b`, `end01b` | 1b. Out of Stock of Vaccine AstraZeneca at Time of Survey | `Prep_01_Baseline.do`, `Prep_02_Endline.do` | *Raw survey var* | *Recoded in prep script* | 0/1 (no/yes) | Table 2 |

@@ -5,18 +5,18 @@ This document is the principal Reviewer 2 deliverable, alongside the reproducibi
 > **Editor / AE direction:** "Referee 2 notes substantial changes in sample size (\~380 to \~2800 observations), changes in point estimates and standard errors, and possible duplication/errors in the ANCOVA and DID tables. Please: clearly explain the analytical changes between versions, verify and correct the ANCOVA/DID tables and results, and provide code and a reproducibility package to ensure the findings can be independently verified."
 
 ::: callout-note
-From Takhona: The previous analysis excluded facilities outside Mahanoro for women's outcomes. ( Brian, Kat and Tara would know more). But as the analysis was meant to be intention to treat, meaning all randomized facilities included regardless of outcomes, Tara recommended that I include these facilities in the revised version. I believe this is the main reason the sample size changed. Tara and Kat can expand further in the response to reviewers.
+Note: The previous analysis excluded facilities outside Mahanoro for women's outcomes. As the analysis is intention to treat (ITT), the revised version includes these facilities. This affected the sample size between R0 and R1.
 :::
 
 ------------------------------------------------------------------------
 
-## 1. Women's outcomes: sample-size change N=380 → N=2800
+## 1. Women's outcomes: sample-size change N=380 → N=2800 - Additional considerations
 
 **Reviewer 2:** flagged the sample-size jump and the corresponding movement in point estimates and standard errors.
 
-**Working diagnosis (from reading `code/02-analysis/Prep_04_Construct_Outcome_Tables_Women-takhona.do`):**
+**Working diagnosis (from reading `code/02-analysis/Prep_04_Construct_Outcome_Tables_Women.do`):**
 
-The change is a **unit-of-observation restructuring**, not a sample-inclusion change. Takhona's R1 women's analysis uses a stacked-panel DID:
+The change is a **unit-of-observation restructuring**, not a sample-inclusion change. The R1 women's analysis uses a stacked-panel DID:
 
 ``` stata
 use   "`basefile'", clear
@@ -32,7 +32,6 @@ Each woman contributes one baseline observation and one endline observation, so 
 
 This explanation is consistent with:
 
--   The standalone `Prep_04_Construct_Outcome_Tables_Women-takhona.do` file (separate from the non-women Prep_04), which exists *only* in the R1 Takhona lineage and not in the May 2025 Kat lineage.
 -   The presence of `baseline_6_women.dta` and `endline_6_women.dta` (per-wave women's datasets) but no pre-stacked panel file — the stacking is constructed at analysis time inside the `run_analysis` program.
 
 **Empirical confirmation (from `regression_results_6_*.csv` in the May 2025 Report):**
@@ -93,19 +92,12 @@ These are produced by distinct programs (`run_analysis` for DID-FE in the women'
 
 ## 3. Other analytical changes between versions
 
-Document any other change Takhona made between submission versions. Examples to check:
+-   Choice of estimator family (ANCOVA, DID, mixed-effects, GEE) and rationale - The revised version does not inlude a multilevel analysis
 
--   Outcome variable definitions (re-coding, censoring, or transformation)
--   Choice of estimator family (ANCOVA, DID, mixed-effects, GEE) and rationale
--   Cluster definition for standard errors (facility, fokontany, commune)
--   Multiple-testing correction (or absence of one) for outcome families
--   Pre-specified vs exploratory outcomes — only flag if a previously exploratory outcome was elevated, or vice versa
--   Robustness checks added in R1
-
-For each change: short paragraph stating what changed, why, and the effect on the headline result.
+-   Cluster definition for standard errors (facility, fokontany, commune) - The revised version includes clustering by facility
 
 ------------------------------------------------------------------------
 
 ## 4. Items unchanged between versions
 
-A short paragraph listing the analytical choices that did **not** change between R0 and R1. This reassures the reviewer that the changes are scoped, not a wholesale re-analysis.
+The rest of the analysis did **not** change between R0 and R1.
