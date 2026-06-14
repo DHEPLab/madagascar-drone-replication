@@ -1,4 +1,3 @@
-
 /*
 SCRIPT: 		Prep_01_Baseline.do
 AUTHOR:			Brian Frizzelle & Tara Templin
