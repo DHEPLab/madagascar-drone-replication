@@ -1,3 +1,0 @@
-Outcome,Model,Effect_Size,Standard_Error,P_value,Observations,Baseline_Control_Mean,Magnitude_Percent
-"58. Among Children with Fever in Last Two Weeks, Pct Who Had Blood Taken",ANCOVA,-.057269003,.058726385,.33217296,362,.61102003,-9.3726883
-"59. Among Children with Fever in Last Two Weeks, Pct Diagnosed with Malaria",ANCOVA,-.090354957,.058041155,.12316281,362,.39972678,-22.604179

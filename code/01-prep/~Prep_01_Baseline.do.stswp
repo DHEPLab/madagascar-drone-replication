@@ -836,6 +836,7 @@ save "$dp/baseline_micro_6_women.dta", replace
 use "$ip/drone-med_baseline_women_public", clear
 
 
+
 // Keep only those variables needed for this report
 keep facility_id respondent treatment s6_10_* s6_12_*
 
