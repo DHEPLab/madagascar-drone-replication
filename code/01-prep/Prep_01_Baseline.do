@@ -324,7 +324,7 @@ la var base21 "21. Informal Payment for Contraception"
 
 
 // Keep the baseline variables
-keep facility_id treatment base* s0_employee nprv npre s1_02 s1_03 s1_04 s1_07 s1_08 s1_09 s1_11 s1_12 s1_13 s1_15
+keep facility_id district facility_type treatment base* s0_employee nprv npre s1_02 s1_03 s1_04 s1_07 s1_08 s1_09 s1_11 s1_12 s1_13 s1_15
 
 // Save
 save "$dp/baseline_micro_1_facility.dta", replace
@@ -822,7 +822,7 @@ la var base76	"76. Those Very Confident in Receiving Vaccinations at the Closest
 
 
 // Keep the baseline variables
-keep respondent treatment base* agecat attend s1_17 s1_18 s1_19 s7_3 s2_1 pregcat lbcat lccat s3_5_current 
+keep respondent facility_id district type treatment base* agecat attend s1_17 s1_18 s1_19 s7_3 s2_1 pregcat lbcat lccat s3_5_current 
 
 
 // Save
@@ -837,7 +837,7 @@ use "$ip/drone-med_baseline_women_public", clear
 
 
 // Keep only those variables needed for this report
-keep facility_id respondent treatment s6_10_* s6_12_*
+keep facility_id district type respondent treatment s6_10_* s6_12_*
 
 // Reshape long
 reshape long s6_10_ s6_12_, ///
@@ -868,7 +868,7 @@ la var base59	"59. Among Children with Fever in Last Two Weeks, Pct Diagnosed wi
 
 
 // Keep the baseline variables
-keep facility_id respondent treatment base*
+keep facility_id district type respondent treatment base*
 
 
 // Save

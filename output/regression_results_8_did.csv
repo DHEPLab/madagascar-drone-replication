@@ -1,0 +1,3 @@
+Outcome,Model,Effect_Size,Standard_Error,P_value,Observations,Baseline_Control_Mean,Magnitude_Percent
+"58. Among Children with Fever in Last Two Weeks, Pct Who Had Blood Taken",DID,.19345593,.092563346,.038967099,626,.5955056,32.485996
+"59. Among Children with Fever in Last Two Weeks, Pct Diagnosed with Malaria",DID,-.82049996,.64196926,.20395485,626,.40449437,-202.84581

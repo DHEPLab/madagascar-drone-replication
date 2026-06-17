@@ -328,7 +328,7 @@ la var end21 "21. Informal Payment for Contraception"
 
 
 // Keep the endline variables
-keep facility_id treatment end* s0_employee nprv npre s1_02 s1_03 s1_04 s1_07 s1_08 s1_09 s1_11 s1_12 s1_13 s1_15
+keep facility_id district facility_type treatment end* s0_employee nprv npre s1_02 s1_03 s1_04 s1_07 s1_08 s1_09 s1_11 s1_12 s1_13 s1_15
 
 
 // Save
@@ -829,7 +829,7 @@ la var end77	"77. Obtained Last Method from Community Health Worker"
 
 
 // Keep the endline variables
-keep respondent treatment end* agecat attend s1_17 s1_18 s1_19 s7_3 s2_1 pregcat lbcat lccat s3_5_current
+keep hhid respondent district type treatment end* agecat attend s1_17 s1_18 s1_19 s7_3 s2_1 pregcat lbcat lccat s3_5_current
 
 
 // Save
@@ -843,7 +843,7 @@ save "$dp/endline_micro_6_women.dta", replace
 use "$ip/drone-med_endline_women_public.dta", clear
 
 // Keep only those variables needed for this report
-keep respondent treatment s6_10_* s6_12_*
+keep respondent hhid district type treatment s6_10_* s6_12_*
 
 // Reshape long
 reshape long s6_10_ s6_12_, ///
@@ -874,7 +874,7 @@ la var end59	"59. Among Children with Fever in Last Two Weeks, Pct Diagnosed wit
 
 
 // Keep the endline variables
-keep respondent treatment end*
+keep respondent hhid district type treatment end*
 
 
 // Save
