@@ -1,14 +1,8 @@
 # Codebook — Madagascar Drone RCT Replication Package
 
-## Source paths (canonical)
+## Source 
 
-| Asset | Location |
-|----|----|
-| Scripts (R1 source) | OneDrive › *Tumlinson, Kat - Madagascar Drone Project* › *Data* › *Analysis and Reports* › *May 2025 Report* › *Scripts* |
-| Raw data (baseline) | OneDrive › *Tumlinson, Kat - Madagascar Drone Project* › *Data* › *Baseline Data* |
-| Raw data (endline) | OneDrive › *Tumlinson, Kat - Madagascar Drone Project* › *Data* › *Endline Data* |
-| Working intermediates | OneDrive › *Data* › *Analysis and Reports* › *May 2025 Report* › *Working* |
-| Result tables | OneDrive › *Data* › *Analysis and Reports* › *May 2025 Report* › *Tables* |
+All data sets are available from UNC Dataverse project "DRONE MED"
 
 ## Outcome-family numbering (inferred from `.dta` filenames)
 
@@ -32,29 +26,6 @@ Files 1, 6, and 8 are the only relevant/reproduced analyses for the current pape
 
 Each family also has a `*_micro_*` variant. The micro files pull and clean the specific variables used for each analysis from the raw data files below. :::
 
-## File inventory (raw → analytic)
-
-The scripts expect raw `.dta` extracts in `data/raw/` (or wherever `$ip` points in `code/00_config.do`) including, at minimum:
-
--   `facility_audit_cleaned_20231013_working.dta`
-
--   `baseline_drone_treatment_district.dta`
-
--   `women_cleaned_20240607_working.dta`
-
--   `endline_facility_audit_cleaned_05032025_final.dta`
-
--   `endline_women_20250310_final.dta`
-
-| File (in `data/raw/`) | Used by script | Unit of observation | Wave | Notes |
-|----|----|----|----|----|
-| `facility_audit_cleaned_20231013_working.dta` | Prep_01_Baseline | facility | baseline | confirmed by code inspection |
-| `baseline_drone_treatment_district.dta` | Prep_01_Baseline | facility | baseline | confirmed; provides treatment + district merge |
-| `women_cleaned_20240607_working.dta` | Prep_01_Baseline | women | baseline | confirmed by code inspection |
-| `endline_facility_audit_cleaned_05032025_final.dta` | Prep_02_Endline | facility | endline | confirmed by code inspection |
-| `endline_women_20250310_final.dta` | Prep_02_Endline | women | endline | confirmed by code inspection |
-| `respondent_info` | Prep_04_Outcome | facility,women | baseline,endline | confirmed by code inspection |
-| `district_info` | Prep_04_Outcome | facility,women | baseline,endline | confirmed by code inspection |
 
 ## Variable dictionary
 
@@ -163,12 +134,4 @@ The scripts expect raw `.dta` extracts in `data/raw/` (or wherever `$ip` points 
 | `base76`, `end76` | 76\. Those Very Confident in Receiving Vaccinations at the Closest Facility | `Prep_01_Baseline.do`, `Prep_02_Endline.do` | *Raw survey var* | *Recoded in prep script* | 0/1 (no/yes) | Table 2 |
 | `base77`, `end77` | 77\. Obtained Last Method from Community Health Worker | `Prep_01_Baseline.do`, `Prep_02_Endline.do` | *Raw survey var* | *Recoded in prep script* | 0/1 (no/yes) | Table 2 |
 
-## Inclusion / exclusion criteria
 
-All randomized facilities included in the analyses.
-
-## Software environment
-
-| Tool  | Version | Notes                                     |
-|-------|---------|-------------------------------------------|
-| Stata | 19.5    | Required if any `.do` scripts are present |
