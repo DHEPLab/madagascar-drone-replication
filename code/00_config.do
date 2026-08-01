@@ -7,8 +7,7 @@
 //
 // Globals defined:
 //   $repo  - repository root (this folder's parent)
-//   $od    - same as $repo (alias preserved for backward compatibility
-//            with Takhona's existing scripts that use `$od`)
+//   $od    - same as $repo 
 //   $ip    - input data path (raw data extracts)
 //   $dp    - data path (cleaned intermediates)
 //   $op    - output path (results, tables, figures)
@@ -23,7 +22,7 @@
 // =========================================================================
 
 // --- Edit this single line for your machine ---
-global repo = "/Users/takhona/madagascar-drone-replication"
+global repo = ""
 
 // --- Derived paths (do not edit unless you reorganized the repo) ---
 global od = "$repo"
