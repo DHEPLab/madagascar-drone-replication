@@ -3,10 +3,10 @@ family,outcome,baseline_control_mean,effect_sizeancova,seancova,p_valueancova,n_
 1,12. Number of Providers Present Today,3.2037036,-.12738732,.28259403,.65306991,107,-3.9762516,.19566737,.32477152,.5481196,216,6.1075363
 1,13. Rated Emergency Reordering Procedure Somewhat or Very Easy,.11111111,-.064371146,.062023833,.30170378,107,-57.934029,-.30048916,.10865004,.0066830833,216,-270.44025
 1,14. Ordered Medical Commodities More Frequently Than Every 3 Months,.83333331,.12818629,.074518815,.088316642,107,15.382354,.18763103,.10130518,.066737287,216,22.515724
-1,15. Number of FP Visits Completed in Last Month (All Methods Combined),121.97826,-17.47052,24.62089,.4809081,57,-14.32265,69.236092,30.424688,.026119485,124,56.761013
-1,16. Number of New Clients Receiving FP in the Last Month,10.565217,-1.2869564,7.3234119,.86115009,56,-12.181069,2.55094,5.8344574,.66337925,123,24.144701
+1,15. Number of FP Visits Completed in Last Month (All Methods Combined),121.97826,-2.8754921,18.299252,.87548876,91,-2.3573809,44.766899,35.508568,.21017228,198,36.700718
+1,16. Number of New Clients Receiving FP in the Last Month,10.565217,.56368715,2.6263452,.83054841,90,5.3353105,.51643986,3.4931152,.88274592,197,4.8881135
 1,17. Out of Stock Prevented Helping a Patient in the Last Six Months,.27777779,-.018109053,.056935344,.75106853,106,-6.519259,-.084609024,.10470899,.42084399,215,-30.459249
-1,18. In Past 6 Months Staff Traveled to District Pharmacy to Place Emergency Orde,.35185185,-.13310105,.075864069,.082240194,107,-37.828716,-.2267645,.11849241,.058299612,216,-64.44886
+1,18. In Past 6 Months Staff Traveled to District Pharmacy to Place Emergency Orde,.35185185,.066281334,3.1452293,.98322654,107,18.837852,-.1921733,2.7136996,.94367516,216,-54.617676
 1,19. Facility Has Working Fridge for Cold Chain Storage,.81481481,.00096972205,.047836941,.98386496,107,.11901134,.00069881201,.060916997,.99086839,216,.085763291
 1,1a. Out of Stock of Vaccine Janssen at Time of Survey,.11363637,.14279552,.093968496,.13245542,83,125.66006,.12191851,.12997891,.35065505,178,107.28828
 1,1b. Out of Stock of Vaccine AstraZeneca at Time of Survey,.022727273,.024480915,.025620976,.34213197,83,107.71602,.047033045,.034632713,.17769781,178,206.94539
@@ -20,44 +20,44 @@ family,outcome,baseline_control_mean,effect_sizeancova,seancova,p_valueancova,n_
 1,1j. Out of Stock of Vaccine Anti Pneumococcique (PCV10) at Time of Survey,.29545453,.02475352,.10947417,.82167625,83,8.3781147,-.02848199,.13712189,.83590245,178,-9.6400585
 1,1k. Out of Stock of Vaccine BCG at Time of Survey,.29545453,.17209606,.10755304,.11342153,83,58.247898,.14753643,.14152008,.29984805,178,49.935406
 1,2. Out of Stock of Malaria Tests at Time of Survey,.037037037,-.075464703,.046894588,.11053793,107,-203.7547,-.05520615,.057110183,.33587351,216,-149.05661
-1,21. Informal Payment for Contraception,.46296296,-.071721837,.1404784,.61134136,68,-15.491917,.11640212,.17137367,.49933204,136,25.142857
+1,21. Informal Payment for Contraception,10.277778,-.0049000424,.34948096,.98883963,107,-.04767609,.39203355,.48613098,.42176375,216,3.8143804
 1,3. Out of Stock of Malaria Tests in the 3 Months Before Survey,.03846154,-.014950496,.038885359,.70146716,98,-38.871292,-.14836213,.066006824,.026628513,207,-385.74152
 1,4. Out of Stock of Antimalarial Medicine at Time of Survey,.09259259,-.035578229,.038405109,.35634613,107,-38.424488,-.057302587,.074148409,.44132325,216,-61.886791
 1,5. Out of Stock of Any Contraceptive Method at Time of Survey,.68518519,.017763857,.055147808,.7480011,107,2.5925629,.079315163,.10964923,.47102645,216,11.575727
 1,5a. Out of Stock of Implants at Time of Survey,.22222222,.048050724,.087583795,.58441603,107,21.622826,.11740042,.10186494,.251656,216,52.830189
 1,5b. Out of Stock of Injectable Depo Provera at Time of Survey,.55555558,-.074759662,.088126637,.39817092,107,-13.456738,.038434662,.1482258,.79589891,216,6.9182391
-1,5c. Out of Stock of Injectable Syana Press at Time of Survey,.42592594,-.08034043,.078665957,.30944422,107,-18.862535,.0017470301,.12782501,.9891206,216,.41017228
+1,5c. Out of Stock of Injectable Sayana Press at Time of Survey,.42592594,-.08034043,.078665957,.30944422,107,-18.862535,.0017470301,.12782501,.9891206,216,.41017228
 1,5d. Out of Stock of Pills at Time of Survey,.2962963,.058435526,.097916134,.55191904,107,19.721991,.21278825,.12944821,.10312352,216,71.81604
 1,5e. Out of Stock of Male Condoms at Time of Survey,.09259259,.17839353,.083578713,.035112001,107,192.66501,.1160028,.11244694,.30455369,216,125.28302
 1,6. Out of Stock of Any Contraceptive Method in the 3 Months Before Survey,.54901963,-.15472996,.095991701,.11056251,89,-28.182959,-.12917824,.12622382,.30849046,194,-23.528893
-1,7. Out of Stock of LARC Removal Supplies at Time of Survey,.20930232,-.15636258,.20560026,.45019349,56,-74.706566,-.18909182,.1654693,.25627303,144,-90.343864
-1,8. Out of Stock of LARC Removal Supplies in the 3 Months Before Survey,0,0,0,,56,,0,0,,144,
+1,7. Out of Stock of LARC Removal Supplies at Time of Survey,0,0,0,,107,,0,0,,216,
+1,8. Out of Stock of LARC Removal Supplies in the 3 Months Before Survey,0,0,0,,107,,0,0,,216,
 6,39. Currently Using Any Contraceptive Method,.45847625,.017990628,.024484148,.46406189,2879,3.9240043,,,,,
 6,39. Currently Using Any Contraceptive Method,.46450305,,,,,,-.0046881,.035117686,.89404893,3890,-1.0092722
 6,40. Currently Using a Modern Contraceptive Method,.45662329,.020579914,.024260672,.39815661,2879,4.5069785,,,,,
 6,40. Currently Using a Modern Contraceptive Method,.46247464,,,,,,-.000026472506,.035591636,.99940795,3890,-.005724099
 6,41. Has Aligned and Preferred Contraceptive Use,.82723576,,,,,,.061306339,.029388592,.039328571,3881,7.4109874
 6,41. Has Aligned and Preferred Contraceptive Use,.83023506,.0072480482,.014911747,.62790728,2871,.87301159,,,,,
-6,42. Has Unmet Need for Contraception,.13628213,-.0038992756,.011710498,.73980045,3377,-2.8611789,,,,,
-6,42. Has Unmet Need for Contraception,.13636364,,,,,,.006080607,.020538978,.76775885,4576,4.4591117
-6,43. Obtained Method from Public Facility,.82833171,.040478181,.097572826,.67961711,885,4.8867116,,,,,
-6,43. Obtained Method from Public Facility,.84722221,,,,,,-.012038643,.094882295,.89941555,1166,-1.4209546
-6,44. Obtained Method from Closest Facility to Home,.79818338,-.017028647,.059440333,.77540559,961,-2.1334252,,,,,
-6,44. Obtained Method from Closest Facility to Home,.80263156,,,,,,.047469489,.071286343,.50776201,1255,5.9142313
-6,"45. Among Those Not Using, Wishes They Were Using Contraception",.27449337,.062973924,.059171651,.29103228,828,22.941875,,,,,
-6,"45. Among Those Not Using, Wishes They Were Using Contraception",.27924529,,,,,,-.11563354,.070414349,.10523707,1160,-41.409309
-6,46. Received MII+,.24122807,,,,,,.0032153728,.093699194,.9727273,1250,1.3329182
-6,46. Received MII+,.24959278,.05336754,.049631387,.28616551,956,21.381844,,,,,
-6,47. FP User Would Refer a Friend to the Facility,.7280702,,,,,,.068224877,.059792608,.25792143,1250,9.3706465
-6,47. FP User Would Refer a Friend to the Facility,.74105453,.05251867,.047424618,.27213484,956,7.0870185,,,,,
-6,48. Made an Informal Payment,.84852147,-.06415382,.056974195,.26456958,671,-7.5606599,,,,,
-6,48. Made an Informal Payment,.863388,,,,,,.0014044009,.087453611,.9872359,929,.16266163
-6,49. There is Another Method They Would Prefer to Use,.15663414,-.040190306,.04706246,.39620617,956,-25.658714,,,,,
-6,49. There is Another Method They Would Prefer to Use,.17982456,,,,,,-.05467058,.085469916,.52458328,1250,-30.402176
-6,"50. Among Users, Felt Had Enough Information to Make a Good Decision",.5350877,,,,,,-.0027740402,.11401708,.98066169,1250,-.51842719
-6,"50. Among Users, Felt Had Enough Information to Make a Good Decision",.57428998,.046984848,.062729925,.45651716,956,8.1813803,,,,,
-6,"51. Among Users, Felt They Could Not Say No to Using",.25877193,,,,,,.010857031,.072352789,.88117057,1250,4.1955986
-6,"51. Among Users, Felt They Could Not Say No to Using",.26713115,.027041148,.05819568,.64370495,956,10.122798,,,,,
+6,42. Has Unmet Need for Contraception,.10922132,-.01413215,.012185657,.24871366,3377,-12.939003,,,,,
+6,42. Has Unmet Need for Contraception,.10942761,,,,,,-.0053059394,.020280974,.79411155,4576,-4.8488121
+6,43. Obtained Method from Public Facility,.82833171,2.1104865,1.2840199,.10326725,1411,254.7876,,,,,
+6,43. Obtained Method from Public Facility,.84722221,,,,,,2.0427351,1.4572932,.1638626,1878,241.10971
+6,44. Obtained Method from Closest Facility to Home,.79818338,-.32254446,.1970046,.10457332,1531,-40.409821,,,,,
+6,44. Obtained Method from Closest Facility to Home,.80263156,,,,,,-.32122949,.18695298,.088619009,2024,-40.022034
+6,"45. Among Those Not Using, Wishes They Were Using Contraception",.27449337,-.00090875884,.03028331,.97611558,1346,-.33106771,,,,,
+6,"45. Among Those Not Using, Wishes They Were Using Contraception",.27924529,,,,,,-.12994686,.049188461,.009470473,1874,-46.535023
+6,46. Received MII+,.24122807,,,,,,-.016282847,.051287927,.75149304,2016,-6.7499804
+6,46. Received MII+,.24959278,-.0095131733,.02335318,.68457222,1523,-3.8114777,,,,,
+6,47. FP User Would Refer a Friend to the Facility,.7280702,,,,,,-.059097353,.053775363,.27422625,2016,-8.1169863
+6,47. FP User Would Refer a Friend to the Facility,.74105453,-.022094317,.029569235,.45660907,1523,-2.9814699,,,,,
+6,48. Made an Informal Payment,.84852147,-.065242819,.034360498,.060535833,1084,-7.6890011,,,,,
+6,48. Made an Informal Payment,.863388,,,,,,-.06246049,.054163713,.25143042,1488,-7.2343478
+6,49. There is Another Method They Would Prefer to Use,.15663414,.031584304,.025734518,.2224496,1523,20.164381,,,,,
+6,49. There is Another Method They Would Prefer to Use,.17982456,,,,,,-.020458205,.053209774,.70137721,2016,-11.376758
+6,"50. Among Users, Felt Had Enough Information to Make a Good Decision",.5350877,,,,,,-.050011046,.065805785,.44892269,2016,-9.3463268
+6,"50. Among Users, Felt Had Enough Information to Make a Good Decision",.57428998,-.026518902,.034768116,.44733083,1523,-4.6176848,,,,,
+6,"51. Among Users, Felt They Could Not Say No to Using",.25877193,,,,,,-.0079343356,.052232638,.87954623,2016,-3.0661502
+6,"51. Among Users, Felt They Could Not Say No to Using",.26713115,.0084551349,.031627879,.78973818,1523,3.1651623,,,,,
 6,"60. Sought Healthcare from a Public or Private Facility, Ever",.91077441,,,,,,.015070073,.020122822,.45554274,4576,1.6546439
 6,"60. Sought Healthcare from a Public or Private Facility, Ever",.91077542,-.018057574,.0084296605,.034428447,3377,-1.9826593,,,,,
 6,61. Sought Healthcare from a Public Facility the Most Recent Time,.88337654,-.029370349,.039069716,.45384133,3232,-3.3247824,,,,,
@@ -74,8 +74,8 @@ family,outcome,baseline_control_mean,effect_sizeancova,seancova,p_valueancova,n_
 6,66. Strongly Agree Staff Involved Me in Decisions About My Care,.37578288,,,,,,.040147815,.04979663,.42187878,3559,10.68378
 6,67. Disagree or Strongly Disagree I Had to Wait a Long Time to Receive Care,.015046322,.019594193,.0069358051,.0056584692,2616,130.2258,,,,,
 6,67. Disagree or Strongly Disagree I Had to Wait a Long Time to Receive Care,.016701462,,,,,,.017634893,.011364541,.12364831,3559,105.58892
-6,68. Disagree or Strongly Disagree Staff Did Not Have Methods,.80769229,,,,,,-.055454522,.084044322,.51162821,1787,-6.865798
-6,68. Disagree or Strongly Disagree Staff Did Not Have Methods,.81618178,-.043858949,.070396945,.535483,1306,-5.3736744,,,,,
+6,68. Disagree or Strongly Disagree Staff Did Not Have Methods,.80769229,,,,,,-.039972607,.056582805,.48143309,2849,-4.9489894
+6,68. Disagree or Strongly Disagree Staff Did Not Have Methods,.81618178,-.061743099,.03670682,.095557421,2078,-7.5648713,,,,,
 6,69. Disagree or Strongly Disagree Staff Did Not Have Vaccines,.88187575,-.032263819,.025766969,.21335515,2214,-3.6585448,,,,,
 6,69. Disagree or Strongly Disagree Staff Did Not Have Vaccines,.88295168,,,,,,.01036596,.037202295,.78105575,3000,1.1740122
 6,70. Perceived High Quality Care at the Closest Facility,.32659933,,,,,,.026438864,.060811073,.6645965,4576,8.0951986
@@ -86,13 +86,13 @@ family,outcome,baseline_control_mean,effect_sizeancova,seancova,p_valueancova,n_
 6,72. Those Who Rated Care as Excellent Quality at Public Facility in Last Year,.44598338,,,,,,.098126903,.053895887,.071425132,2670,22.002369
 6,73. Those Treated Very Well by Provider at Public Facility in Last Year,.47922438,,,,,,.075304516,.056467503,.18514396,2670,15.713833
 6,73. Those Treated Very Well by Provider at Public Facility in Last Year,.47961783,.02954766,.040135566,.46325275,1956,6.1606674,,,,,
-6,74. Those Very Confident They Could Receive Method Next Week at Closest Facility,.019390581,,,,,,-.041626956,.064167425,.51873416,1710,-214.67616
-6,74. Those Very Confident They Could Receive Method Next Week at Closest Facility,.023817072,.0492188,.065877542,.45772386,1247,206.65346,,,,,
-6,75. Those Very Confident the Closest Facility Has a Reliable Supply of FP,.019390581,,,,,,.020685431,.054818168,.70710897,1710,106.67772
-6,75. Those Very Confident the Closest Facility Has a Reliable Supply of FP,.023742355,.065382004,.052846417,.22053024,1247,275.38129,,,,,
+6,74. Those Very Confident They Could Receive Method Next Week at Closest Facility,.019390581,,,,,,.018907882,.038285322,.62240255,2670,97.510651
+6,74. Those Very Confident They Could Receive Method Next Week at Closest Facility,.023817072,.016649688,.035876546,.64354914,1956,69.906525,,,,,
+6,75. Those Very Confident the Closest Facility Has a Reliable Supply of FP,.019390581,,,,,,.033498701,.033052519,.31308702,2670,172.75758
+6,75. Those Very Confident the Closest Facility Has a Reliable Supply of FP,.023742355,.022422144,.028808583,.43813387,1956,94.43943,,,,,
 6,76. Those Very Confident in Receiving Vaccinations at the Closest Facility,.013850415,,,,,,-.0041066688,.047668774,.93150663,2670,-29.650148
 6,76. Those Very Confident in Receiving Vaccinations at the Closest Facility,.017345753,-.00010788037,.045551609,.99811488,1956,-.62194115,,,,,
 8,"58. Among Children with Fever in Last Two Weeks, Pct Who Had Blood Taken",.5955056,,,,,,.19345593,.092563346,.038967099,626,32.485996
-8,"58. Among Children with Fever in Last Two Weeks, Pct Who Had Blood Taken",.61102003,-.057269003,.058726385,.33217296,362,-9.3726883,,,,,
-8,"59. Among Children with Fever in Last Two Weeks, Pct Diagnosed with Malaria",.39972678,-.090354957,.058041155,.12316281,362,-22.604179,,,,,
-8,"59. Among Children with Fever in Last Two Weeks, Pct Diagnosed with Malaria",.40449437,,,,,,.12998854,.094294399,.17088568,626,32.136055
+8,"58. Among Children with Fever in Last Two Weeks, Pct Who Had Blood Taken",.61777163,-.057269003,.058726385,.33217296,362,-9.2702551,,,,,
+8,"59. Among Children with Fever in Last Two Weeks, Pct Diagnosed with Malaria",.40414366,-.90301955,.54419273,.10064117,362,-223.44023,,,,,
+8,"59. Among Children with Fever in Last Two Weeks, Pct Diagnosed with Malaria",.40449437,,,,,,-.82049996,.64196926,.20395485,626,-202.84581

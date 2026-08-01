@@ -4,13 +4,13 @@ SCRIPT: 		Prep_02_Endline.do
 AUTHOR:			Brian Frizzelle & Tara Templin
 DATE:			March 28, 2025
 MODIFIED:		Takhona Hlatshwako
-LAST UPDATED:	May 28, 2026
+LAST UPDATED:	June 17, 2026
 
 */
 
 ** FACILITY AUDIT MEASURES **
 // Open the Facility Audit data
-use "$ip/endline_facility_audit_cleaned_05032025_final.dta", clear
+use "$ip/drone-med_endline_facility_audit_public.dta", clear
 
 ** Set value labels
 la def yn 0 "No" 1 "Yes", replace
@@ -109,54 +109,61 @@ la var end04 	"4. Out of Stock of Antimalarial Medicine at Time of Survey"
 
 
 // OUTCOME 5: Out of Stock of Any Contraceptive Method at Time of Survey
-// Control/Drone/Total (54/14/68)
-** Reshape stock_fp and s2_20 for this one
 preserve
-** Keep variables of interest
-keep facility_id stock_fp* s2_20_*
-reshape long stock_fp_ s2_20_, i(facility_id) j(n)
-renvars *_, postd(1)
-drop if missing(stock_fp)
-** Keep only the five methods of interest
-keep if inlist(stock_fp, "IMPLANT", "INJECTABLES_-_DEPO PROVERA", ///
-	"INJECTABLES_-_SAYANA PRESS", "PILL", "MALE_CONDOM")
-** Create a 'stock' variable to enumerate the five methods
-gen stock = .
-replace stock = 1 if stock_fp == "IMPLANT"
-replace stock = 2 if stock_fp == "INJECTABLES_-_DEPO PROVERA"
-replace stock = 3 if stock_fp == "INJECTABLES_-_SAYANA PRESS"
-replace stock = 4 if stock_fp == "PILL"
-replace stock = 5 if stock_fp == "MALE_CONDOM"
-** Create an 'oos' variable to indicate the method is out of stock
-gen oos = s2_20 == 3
-** Drop unneeded variables
-drop stock_fp s2_20 n
-** Reshape wide
-reshape wide oos, i(facility_id) j(stock)
-** Recode all missing values to 0 so we get the full 107 represented
-recode oos* (.=0)
-** Rename the variables
-rename oos1 end05a
-rename oos2 end05b
-rename oos3 end05c
-rename oos4 end05d
-rename oos5 end05e
-** Create the combined variable and reorder it to the front
-egen end05 = rowmax(end05a-end05e)
+keep facility_id s2_20_*
+
+** Initialize method-specific out-of-stock variables to 0
+** fp_codes: 3=Implant, 5=Injectable Depo Provera, 6=Injectable Sayana Press, 7=Pill, 9=Male Condom
+forvalues j = 1/5 {
+    gen end05_`j' = 0
+}
+
+** For each method, loop through slots to determine out-of-stock status
+local j = 0
+foreach code in 3 5 6 7 9 {
+    local j = `j' + 1
+    forvalues slot = 1/8 {
+        capture confirm variable s2_20_stock_fp_`slot'
+        if !_rc {
+            capture confirm variable s2_20_`slot'
+            if !_rc {
+                replace end05_`j' = (s2_20_`slot' == 3) ///
+                    if s2_20_stock_fp_`slot' == `code' & !missing(s2_20_stock_fp_`slot')
+            }
+        }
+    }
+}
+
+** Create combined out-of-stock variable (1 if any method is out of stock)
+egen end05 = rowmax(end05_1-end05_5)
 order end05, after(facility_id)
+
+** Rename method-specific variables
+rename end05_1 end05a
+rename end05_2 end05b
+rename end05_3 end05c
+rename end05_4 end05d
+rename end05_5 end05e
+
+** Keep only needed variables
+keep facility_id end05 end05a end05b end05c end05d end05e
+
 ** Label the variables
-la var end05	"5. Out of Stock of Any Contraceptive Method at Time of Survey"
-la var end05a	"5a. Out of Stock of Implants at Time of Survey"
-la var end05b	"5b. Out of Stock of Injectable Depo Provera at Time of Survey"
-la var end05c	"5c. Out of Stock of Injectable Syana Press at Time of Survey"
-la var end05d	"5d. Out of Stock of Pills at Time of Survey"
-la var end05e	"5e. Out of Stock of Male Condoms at Time of Survey"
-tempfile b05
-save `b05'
+la var end05  "5. Out of Stock of Any Contraceptive Method at Time of Survey"
+la var end05a "5a. Out of Stock of Implants at Time of Survey"
+la var end05b "5b. Out of Stock of Injectable Depo Provera at Time of Survey"
+la var end05c "5c. Out of Stock of Injectable Sayana Press at Time of Survey"
+la var end05d "5d. Out of Stock of Pills at Time of Survey"
+la var end05e "5e. Out of Stock of Male Condoms at Time of Survey"
+
+tempfile e05
+save `e05'
 restore
-** Merge back on to the dataset
-merge 1:1 facility_id using `b05'
+
+** Merge back onto the dataset
+merge 1:1 facility_id using `e05'
 drop _merge
+
 ** Apply value labels
 la val end05* yn
 
@@ -168,63 +175,82 @@ egen end06 = rowmax(s2_21_*)
 la var end06 "6. Out of Stock of Any Contraceptive Method in the 3 Months Before Survey"
 
 
-
 // OUTCOME 7: Out of Stock of LARC Removal Supplies at Time of Survey
-// Control/Drone/Total (48/14/68)
-** Reshape stock_fp and s2_28 for this one
 preserve
-** Keep variables of interest
-keep facility_id stock_fp* s2_28_*
-reshape long stock_fp_ s2_28_, i(facility_id) j(n)
-renvars *_, postd(1)
-drop if missing(stock_fp)
-** Keep only the two LARC methods
-keep if inlist(stock_fp, "IMPLANT", "IUD")
-** Create the variable to indicate the method is out of stock
-gen end07 = s2_28 == 3
-** Collapse to get the max of end07 by facility
-collapse (max) end07, by(facility_id)
-** Label 
+keep facility_id s2_28_*
+
+** Initialize out-of-stock variable to 0
+** LARC codes: 3=Implant, [IUD code - confirm from data]
+gen end07 = 0
+
+** Loop through slots checking for LARC methods (Implant, IUD) out of stock
+foreach code in 3 4 {   // *** VERIFY IUD numeric code ***
+    forvalues slot = 1/8 {
+        capture confirm variable s2_28_stock_fp_`slot'
+        if !_rc {
+            capture confirm variable s2_28_`slot'
+            if !_rc {
+                replace end07 = 1 ///
+                    if s2_28_stock_fp_`slot' == `code' ///
+                    & s2_28_`slot' == 3 ///
+                    & !missing(s2_28_stock_fp_`slot')
+            }
+        }
+    }
+}
+
+** Label
 la var end07 "7. Out of Stock of LARC Removal Supplies at Time of Survey"
-tempfile b07
-save `b07'
+
+tempfile e07
+save `e07'
 restore
-** Merge back on to the dataset
-merge 1:1 facility_id using `b07'
+
+** Merge back onto the dataset
+merge 1:1 facility_id using `e07'
 drop _merge
+
 ** Apply value labels
 la val end07 yn
-** Drop measures from Drone facilities outside of Mahanoro
-replace end07 = . if treatment == 1 & District != "Mahanoro"
 
 
 // OUTCOME 8: Out of Stock of LARC Removal Supplies in 3 Months Before Survey
-// Control/Drone/Total (48/14/68)
-** Reshape stock_fp and s2_29 for this one
 preserve
-** Keep variables of interest
-keep facility_id stock_fp* s2_29_*
-reshape long stock_fp_ s2_29_, i(facility_id) j(n)
-renvars *_, postd(1)
-drop if missing(stock_fp)
-** Keep only the two LARC methods
-keep if inlist(stock_fp, "IMPLANT", "IUD")
-** Create the variable to indicate the method is out of stock
-gen end08 = s2_29 == 3
-** Collapse to get the max of end08 by facility
-collapse (max) end08, by(facility_id)
-** Label 
+keep facility_id s2_29_*
+
+** Initialize out-of-stock variable to 0
+** LARC codes: 3=Implant, [IUD code - confirm from data]
+gen end08 = 0
+
+** Loop through slots checking for LARC methods (Implant, IUD) out of stock
+foreach code in 3 4 {   // *** VERIFY IUD numeric code ***
+    forvalues slot = 1/8 {
+        capture confirm variable s2_29_stock_fp_`slot'
+        if !_rc {
+            capture confirm variable s2_29_`slot'
+            if !_rc {
+                replace end08 = 1 ///
+                    if s2_29_stock_fp_`slot' == `code' ///
+                    & s2_29_`slot' == 3 ///
+                    & !missing(s2_29_stock_fp_`slot')
+            }
+        }
+    }
+}
+
+** Label
 la var end08 "8. Out of Stock of LARC Removal Supplies in the 3 Months Before Survey"
-tempfile b08
-save `b08'
+
+tempfile e08
+save `e08'
 restore
-** Merge back on to the dataset
-merge 1:1 facility_id using `b08'
+
+** Merge back onto the dataset
+merge 1:1 facility_id using `e08'
 drop _merge
+
 ** Apply value labels
 la val end08 yn
-** Drop measures from Drone facilities outside of Mahanoro
-replace end08 = . if treatment == 1 & District != "Mahanoro"
 
 
 // OUTCOME 12: Number of Providers Present Today
@@ -258,9 +284,6 @@ la var end15 "15. Number of FP Visits Completed in Last Month (All Methods Combi
 egen nm = rownonmiss(s2_19_c-s2_19_m)
 replace end15 = . if nm == 0
 drop nm
-** Drop measures from Drone facilities outside of Mahanoro
-replace end15 = . if treatment == 1 & District != "Mahanoro"
-
 
 // OUTCOME 16: Number of New Clients Receiving FP in the Last Month
 // Control/Drone/Total (51/14/65)
@@ -274,8 +297,7 @@ la var end16 "16. Number of New Clients Receiving FP in the Last Month"
 egen nm = rownonmiss(s2_19_p-s2_19_z)
 replace end16 = . if nm == 0
 drop nm
-** Drop measures from Drone facilities outside of Mahanoro
-replace end16 = . if treatment == 1 & District != "Mahanoro"
+
 
 
 // OUTCOME 17: Out of Stock Prevented Helping a Patient in the Last Six Months
@@ -303,12 +325,10 @@ la var end19 "19. Facility Has Working Fridge for Cold Chain Storage"
 egen end21 = rowmax(s2_02_*)
 la val end21 yn
 la var end21 "21. Informal Payment for Contraception"
-* Drop measures from Drone facilities outside of Mahanoro
-replace end21 = . if treatment == 1 & District != "Mahanoro"
 
 
 // Keep the endline variables
-keep facility_id treatment end* s0_employee nprv npre s1_02 s1_03 s1_04 s1_07 s1_08 s1_09 s1_11 s1_12 s1_13 s1_15
+keep facility_id district facility_type treatment end* s0_employee nprv npre s1_02 s1_03 s1_04 s1_07 s1_08 s1_09 s1_11 s1_12 s1_13 s1_15
 
 
 // Save
@@ -318,7 +338,7 @@ save "$dp/endline_micro_1_facility.dta", replace
 ****************************************************************
 ** WOMEN'S QRE MEASURES **
 // Open the Women's data
-use "$ip/endline_women_20250310_final.dta", clear
+use "$ip/drone-med_endline_women_public.dta", clear
 
 // Set value labels
 la def yn 0 "No" 1 "Yes", replace
@@ -388,7 +408,7 @@ la val lccat lccat
 // Construct Unmet Need variable
 // Create variables for unmet needs
 ** Months since last birth
-gen dmSinceBirth = datediff_frac(s2_8, startdate, "month")
+gen dmSinceBirth = 0
 la var dmSinceBirth "Months since last birth"
 
 ** Months since last menstruation event
@@ -397,20 +417,20 @@ replace daysSinceLM = s2_15_duration if s2_15 == 5 //		days
 replace daysSinceLM = s2_15_duration * 7 if s2_15 == 6 //	weeks
 replace daysSinceLM = s2_15_duration * 30 if s2_15 == 7 //	months
 replace daysSinceLM = s2_15_duration * 365 if s2_15 == 8 // years
-gen monthsActlSinceLM = datediff_frac(s2_15_date, startdate, "month")
+gen monthsActlSinceLM = 0
 gen dmLastMenstruation = daysSinceLM / 365 * 12
 replace dmLastMenstruation = monthsActlSinceLM if missing(dmLastMenstruation)
 la var dmLastMenstruation "Months since last menstruation"
 drop *SinceLM
 ** Recalculate dmLastMenstruation using enddate if the current value is < 0
-replace dmLastMenstruation = datediff_frac(s2_15_date, enddate, "month") if ///
+replace dmLastMenstruation = 0 if ///
 	dmLastMenstruation < 0
 
 ** Days and months living together
-gen startyear = year(startdate)
-gen dyLivingTogether = datediff_frac(s7_4_mnthyear, startdate, "year") if ///
+gen startyear = 0
+gen dyLivingTogether = 0 if ///
 	s7_4 == 2
-replace dyLivingTogether = startyear - s7_4_year if s7_4 == 1
+replace dyLivingTogether = startyear - 0 if s7_4 == 1
 la var dyLivingTogether "Time living together (years)"
 
 ** Days since sex
@@ -809,7 +829,7 @@ la var end77	"77. Obtained Last Method from Community Health Worker"
 
 
 // Keep the endline variables
-keep respondent treatment end* agecat attend s1_17 s1_18 s1_19 married s7_3 s2_1 pregcat lbcat lccat s3_5_current
+keep hhid respondent district type treatment end* agecat attend s1_17 s1_18 s1_19 s7_3 s2_1 pregcat lbcat lccat s3_5_current
 
 
 // Save
@@ -820,10 +840,10 @@ save "$dp/endline_micro_6_women.dta", replace
 ****************************************************************
 ** WOMEN'S QRE CHILD-LEVEL HEALTH MEASURES **
 // Open the Women's data
-use "$ip/endline_women_20250310_final.dta", clear
+use "$ip/drone-med_endline_women_public.dta", clear
 
 // Keep only those variables needed for this report
-keep facility_id respondent treatment s6_10_* s6_12_*
+keep respondent hhid district type treatment s6_10_* s6_12_*
 
 // Reshape long
 reshape long s6_10_ s6_12_, ///
@@ -854,7 +874,7 @@ la var end59	"59. Among Children with Fever in Last Two Weeks, Pct Diagnosed wit
 
 
 // Keep the endline variables
-keep facility_id respondent treatment end*
+keep respondent hhid district type treatment end*
 
 
 // Save

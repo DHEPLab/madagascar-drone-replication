@@ -4,12 +4,6 @@
 // from the canonical regression-result CSVs produced by the 02-analysis
 // scripts.
 //
-// Reviewer 2 of BMJ Global Health (bmjgh-2025-021965.R1) noted that the
-// ANCOVA and DID columns in the previously submitted Table 2 appeared
-// identical. This script eliminates the manuscript-prep transcription
-// risk by reading the canonical CSVs and writing Table 2 directly. The
-// script must be the single source of truth for any Table 2 update.
-//
 // Inputs (in $op or, equivalently, output/tables/):
 //   regression_results_<family>_ancova.csv
 //   regression_results_<family>_did.csv

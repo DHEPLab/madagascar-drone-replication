@@ -3,21 +3,16 @@ SCRIPT: 		Prep_01_Baseline.do
 AUTHOR:			Brian Frizzelle & Tara Templin
 MODIFIED:       Takhona Hlatshwako
 DATE:			March 24, 2025
-LAST UPDATED:	May 28, 2026
+LAST UPDATED:	June 17, 2026
 */
 
 
 ** FACILITY AUDIT MEASURES **
 // Open the Facility Audit data
-use "$ip/facility_audit_cleaned_20231013_working.dta", clear
+use "$ip/drone-med_baseline_facility_audit_public", clear
 
 ** Set value labels
 la def yn 0 "No" 1 "Yes", replace
-
-// Merge on Drone flights and districts
-merge 1:1 facility_id using "$dp/baseline_drone_treatment_district.dta", ///
-	keepusing(District)
-drop _merge
 
 // Drop facilities that did not consent
 drop if consent == 0
@@ -111,54 +106,61 @@ la var base04 	"4. Out of Stock of Antimalarial Medicine at Time of Survey"
 
 
 // OUTCOME 5: Out of Stock of Any Contraceptive Method at Time of Survey
-// Control/Drone/Total (54/14/68)
-** Reshape stock_fp and s2_20 for this one
 preserve
-** Keep variables of interest
-keep facility_id stock_fp* s2_20_*
-reshape long stock_fp_ s2_20_, i(facility_id) j(n)
-renvars *_, postd(1)
-drop if missing(stock_fp)
-** Keep only the five methods of interest
-keep if inlist(stock_fp, "IMPLANT", "INJECTABLES_-_DEPO PROVERA", ///
-	"INJECTABLES_-_SAYANA PRESS", "PILL", "MALE_CONDOM")
-** Create a 'stock' variable to enumerate the five methods
-gen stock = .
-replace stock = 1 if stock_fp == "IMPLANT"
-replace stock = 2 if stock_fp == "INJECTABLES_-_DEPO PROVERA"
-replace stock = 3 if stock_fp == "INJECTABLES_-_SAYANA PRESS"
-replace stock = 4 if stock_fp == "PILL"
-replace stock = 5 if stock_fp == "MALE_CONDOM"
-** Create an 'oos' variable to indicate the method is out of stock
-gen oos = s2_20 == 3
-** Drop unneeded variables
-drop stock_fp s2_20 n
-** Reshape wide
-reshape wide oos, i(facility_id) j(stock)
-** Recode all missing values to 0 so we get the full 107 represented
-recode oos* (.=0)
-** Rename the variables
-rename oos1 base05a
-rename oos2 base05b
-rename oos3 base05c
-rename oos4 base05d
-rename oos5 base05e
-** Create the combined variable and reorder it to the front
-egen base05 = rowmax(base05a-base05e)
+keep facility_id s2_20_*
+
+** Initialize method-specific out-of-stock variables to 0
+** fp_codes: 3=Implant, 5=Injectable Depo Provera, 6=Injectable Sayana Press, 7=Pill, 9=Male Condom
+forvalues j = 1/5 {
+    gen base05_`j' = 0
+}
+
+** For each method, loop through slots to determine out-of-stock status
+local j = 0
+foreach code in 3 5 6 7 9 {
+    local j = `j' + 1
+    forvalues slot = 1/8 {
+        capture confirm variable s2_20_stock_fp_`slot'
+        if !_rc {
+            capture confirm variable s2_20_`slot'
+            if !_rc {
+                replace base05_`j' = (s2_20_`slot' == 3) ///
+                    if s2_20_stock_fp_`slot' == `code' & !missing(s2_20_stock_fp_`slot')
+            }
+        }
+    }
+}
+
+** Create combined out-of-stock variable (1 if any method is out of stock)
+egen base05 = rowmax(base05_1-base05_5)
 order base05, after(facility_id)
+
+** Rename method-specific variables
+rename base05_1 base05a
+rename base05_2 base05b
+rename base05_3 base05c
+rename base05_4 base05d
+rename base05_5 base05e
+
+** Keep only needed variables
+keep facility_id base05 base05a base05b base05c base05d base05e
+
 ** Label the variables
-la var base05	"5. Out of Stock of Any Contraceptive Method at Time of Survey"
-la var base05a	"5a. Out of Stock of Implants at Time of Survey"
-la var base05b	"5b. Out of Stock of Injectable Depo Provera at Time of Survey"
-la var base05c	"5c. Out of Stock of Injectable Syana Press at Time of Survey"
-la var base05d	"5d. Out of Stock of Pills at Time of Survey"
-la var base05e	"5e. Out of Stock of Male Condoms at Time of Survey"
+la var base05  "5. Out of Stock of Any Contraceptive Method at Time of Survey"
+la var base05a "5a. Out of Stock of Implants at Time of Survey"
+la var base05b "5b. Out of Stock of Injectable Depo Provera at Time of Survey"
+la var base05c "5c. Out of Stock of Injectable Sayana Press at Time of Survey"
+la var base05d "5d. Out of Stock of Pills at Time of Survey"
+la var base05e "5e. Out of Stock of Male Condoms at Time of Survey"
+
 tempfile b05
 save `b05'
 restore
-** Merge back on to the dataset
+
+** Merge back onto the dataset
 merge 1:1 facility_id using `b05'
 drop _merge
+
 ** Apply value labels
 la val base05* yn
 
@@ -170,55 +172,79 @@ la var base06 	"6. Out of Stock of Any Contraceptive Method in the 3 Months Befo
 
 
 // OUTCOME 7: Out of Stock of LARC Removal Supplies at Time of Survey
-// Control/Drone/Total (43/14/57)
-** Reshape stock_fp and s2_28 for this one
 preserve
-** Keep variables of interest
-keep facility_id stock_fp* s2_28_*
-reshape long stock_fp_ s2_28_, i(facility_id) j(n)
-renvars *_, postd(1)
-drop if missing(stock_fp)
-** Keep only the two LARC methods
-keep if inlist(stock_fp, "IMPLANT", "IUD")
-** Create the variable to indicate the method is out of stock
-gen base07 = s2_28 == 3
-** Collapse to get the max of base07 by facility
-collapse (max) base07, by(facility_id)
-** Label 
-la var base07 	"7. Out of Stock of LARC Removal Supplies at Time of Survey"
+keep facility_id s2_28_*
+
+** Initialize out-of-stock variable to 0
+** LARC codes: 3=Implant, [IUD code - confirm from data]
+gen base07 = 0
+
+** Loop through slots checking for LARC methods (Implant, IUD) out of stock
+foreach code in 3 4 {   // *** VERIFY IUD numeric code ***
+    forvalues slot = 1/8 {
+        capture confirm variable s2_28_stock_fp_`slot'
+        if !_rc {
+            capture confirm variable s2_28_`slot'
+            if !_rc {
+                replace base07 = 1 ///
+                    if s2_28_stock_fp_`slot' == `code' ///
+                    & s2_28_`slot' == 3 ///
+                    & !missing(s2_28_stock_fp_`slot')
+            }
+        }
+    }
+}
+
+** Label
+la var base07 "7. Out of Stock of LARC Removal Supplies at Time of Survey"
+
 tempfile b07
 save `b07'
 restore
-** Merge back on to the dataset
+
+** Merge back onto the dataset
 merge 1:1 facility_id using `b07'
 drop _merge
+
 ** Apply value labels
 la val base07 yn
 
 
 // OUTCOME 8: Out of Stock of LARC Removal Supplies in 3 Months Before Survey
-// Control/Drone/Total (43/14/57)
-** Reshape stock_fp and s2_29 for this one
 preserve
-** Keep variables of interest
-keep facility_id stock_fp* s2_29_*
-reshape long stock_fp_ s2_29_, i(facility_id) j(n)
-renvars *_, postd(1)
-drop if missing(stock_fp)
-** Keep only the two LARC methods
-keep if inlist(stock_fp, "IMPLANT", "IUD")
-** Create the variable to indicate the method is out of stock
-gen base08 = s2_29 == 3
-** Collapse to get the max of base08 by facility
-collapse (max) base08, by(facility_id)
-** Label 
-la var base08 	"8. Out of Stock of LARC Removal Supplies in the 3 Months Before Survey"
+keep facility_id s2_29_*
+
+** Initialize out-of-stock variable to 0
+** LARC codes: 3=Implant, [IUD code - confirm from data]
+gen base08 = 0
+
+** Loop through slots checking for LARC methods (Implant, IUD) out of stock
+foreach code in 3 4 {   // *** VERIFY IUD numeric code ***
+    forvalues slot = 1/8 {
+        capture confirm variable s2_29_stock_fp_`slot'
+        if !_rc {
+            capture confirm variable s2_29_`slot'
+            if !_rc {
+                replace base08 = 1 ///
+                    if s2_29_stock_fp_`slot' == `code' ///
+                    & s2_29_`slot' == 3 ///
+                    & !missing(s2_29_stock_fp_`slot')
+            }
+        }
+    }
+}
+
+** Label
+la var base08 "8. Out of Stock of LARC Removal Supplies in the 3 Months Before Survey"
+
 tempfile b08
 save `b08'
 restore
-** Merge back on to the dataset
+
+** Merge back onto the dataset
 merge 1:1 facility_id using `b08'
 drop _merge
+
 ** Apply value labels
 la val base08 yn
 
@@ -254,8 +280,6 @@ la var base15 "15. Number of FP Visits Completed in Last Month (All Methods Comb
 egen nm = rownonmiss(s2_19_c-s2_19_m)
 replace base15 = . if nm == 0
 drop nm
-** Drop measures from Drone facilities outside of Mahanoro
-replace base15 = . if treatment == 1 & District != "Mahanoro"
 
 
 // OUTCOME 16: Number of New Clients Receiving FP in the Last Month
@@ -270,8 +294,6 @@ la var base16 "16. Number of New Clients Receiving FP in the Last Month"
 egen nm = rownonmiss(s2_19_p-s2_19_z)
 replace base16 = . if nm == 0
 drop nm
-** Drop measures from Drone facilities outside of Mahanoro
-replace base16 = . if treatment == 1 & District != "Mahanoro"
 
 
 // OUTCOME 17: Out of Stock Prevented Helping a Patient in the Last Six Months
@@ -299,12 +321,10 @@ la var base19 "19. Facility Has Working Fridge for Cold Chain Storage"
 egen base21 = rowmax(s2_02_*)
 la val base21 yn
 la var base21 "21. Informal Payment for Contraception"
-* Drop measures from Drone facilities outside of Mahanoro
-replace base21 = . if treatment == 1 & District != "Mahanoro"
 
 
 // Keep the baseline variables
-keep facility_id treatment base* s0_employee nprv npre s1_02 s1_03 s1_04 s1_07 s1_08 s1_09 s1_11 s1_12 s1_13 s1_15
+keep facility_id district facility_type treatment base* s0_employee nprv npre s1_02 s1_03 s1_04 s1_07 s1_08 s1_09 s1_11 s1_12 s1_13 s1_15
 
 // Save
 save "$dp/baseline_micro_1_facility.dta", replace
@@ -313,17 +333,11 @@ save "$dp/baseline_micro_1_facility.dta", replace
 ****************************************************************
 ** WOMEN'S QRE MEASURES **
 // Open the Women's data
-use "$ip/women_cleaned_20240607_working.dta", clear
+use "$ip/drone-med_baseline_women_public.dta", clear
 
 
 // Set value labels
 la def yn 0 "No" 1 "Yes", replace
-
-// Merge on Drone flights and districts
-drop treatment
-merge m:1 facility_id using "$dp/baseline_drone_treatment_district.dta", ///
-	keepusing(District treatment)
-drop _merge
 
 
 * Create categories for age
@@ -390,8 +404,8 @@ la val lccat lccat
 
 // Construct Unmet Need variable
 // Create variables for unmet needs
-** Months since last birth
-gen dmSinceBirth = datediff_frac(s2_8, visit_date, "month")
+** Months since last birth - set to 0 since visit_date not included in public files
+gen dmSinceBirth = 0
 la var dmSinceBirth "Months since last birth"
 
 ** Months since last menstruation event
@@ -400,18 +414,18 @@ replace daysSinceLM = s2_15_duration if s2_15 == 5 //		days
 replace daysSinceLM = s2_15_duration * 7 if s2_15 == 6 //	weeks
 replace daysSinceLM = s2_15_duration * 30 if s2_15 == 7 //	months
 replace daysSinceLM = s2_15_duration * 365 if s2_15 == 8 // years
-gen monthsActlSinceLM = datediff_frac(s2_15_date, visit_date, "month")
+gen monthsActlSinceLM = 0
 gen dmLastMenstruation = daysSinceLM / 365 * 12
 replace dmLastMenstruation = monthsActlSinceLM if missing(dmLastMenstruation)
 la var dmLastMenstruation "Months since last menstruation"
 drop *SinceLM
 
 ** Days and months living together
-gen startyear = substr(startday, 1, 4)
+gen startyear = 0
 destring startyear, replace
-gen dyLivingTogether = datediff_frac(s7_4_mnthyear, visit_date, "year") if ///
+gen dyLivingTogether = 0 if ///
 	s7_4 == 2
-replace dyLivingTogether = startyear - s7_4_year if s7_4 == 1
+replace dyLivingTogether = startyear - 0 if s7_4 == 1
 la var dyLivingTogether "Time living together (years)"
 
 ** Days since sex
@@ -594,7 +608,7 @@ la var Unmet "Unmet Status"
 // Control/Drone/Total (493/132/625)
 recode s3_1 (1 2 = 1 "Yes") (0 = 0 "No"), gen(base39)
 la var base39	"39. Currently Using Any Contraceptive Method"
-** Drop measures from Drone facilities outside of Mahanoro
+
 
 
 
@@ -607,7 +621,7 @@ gen base40 = s3_5 != "15" & s3_5 != "16" if !missing(s3_5)
 recode base40 (.=0) if !missing(s3_1)
 la val base40 yn
 la var base40	"40. Currently Using a Modern Contraceptive Method"
-** Drop measures from Drone facilities outside of Mahanoro
+
 
 
 // OUTCOME 41: Has Aligned and Preferred Contraceptive Use
@@ -620,7 +634,7 @@ gen base41 = 1 if (inlist(s3_1, 1, 2) & s3_3 == 1) | (s3_1 == 0 & s3_2 == 0)
 replace base41 = 0 if (inlist(s3_1, 1, 2) & s3_3 == 0) | (s3_1 == 0 & s3_2 == 1)
 la val base41 yn
 la var base41	"41. Has Aligned and Preferred Contraceptive Use"
-** Drop measures from Drone facilities outside of Mahanoro
+
 
 
 
@@ -629,7 +643,7 @@ la var base41	"41. Has Aligned and Preferred Contraceptive Use"
 gen base42 = Unmet
 la val base42 yn
 la var base42	"42. Has Unmet Need for Contraception"
-** Drop measures from Drone facilities outside of Mahanoro
+
 
 
 
@@ -637,16 +651,14 @@ la var base42	"42. Has Unmet Need for Contraception"
 // Control/Drone/Total (216/59/275)
 recode s3_8 (1 = 1 "Yes") (2 3 = 0 "No"), gen(base43)
 la var base43	"43. Obtained Method from Public Facility"
-** Drop measures from Drone facilities outside of Mahanoro
-replace base43 = . if treatment == 1 & District != "Mahanoro"
+
 
 
 // OUTCOME 44: Obtained Method from Closest Facility to Home
 // Control/Drone/Total (228/65/293)
 recode s3_14 (1 = 1 "Yes") (0 = 0 "No") (99=.), gen(base44)
 la var base44	"44. Obtained Method from Closest Facility to Home"
-** Drop measures from Drone facilities outside of Mahanoro
-replace base44 = . if treatment == 1 & District != "Mahanoro"
+
 
 
 // OUTCOME 45: Among Those Not Using, Wishes They Were Using Contraception
@@ -654,8 +666,7 @@ replace base44 = . if treatment == 1 & District != "Mahanoro"
 gen base45 = s3_2
 la val base45 yn
 la var base45	"45. Among Those Not Using, Wishes They Were Using Contraception"
-** Drop measures from Drone facilities outside of Mahanoro
-replace base45 = . if treatment == 1 & District != "Mahanoro"
+
 
 
 // OUTCOME 46: Received MII+
@@ -664,8 +675,7 @@ gen base46 = s3b_2 == 1 & s3b_3 == 1 & s3b_4 == 1 & s3b_5 == 1
 recode base46 (0=.) if missing(s3b_2)
 la val base46 yn
 la var base46	"46. Received MII+"
-** Drop measures from Drone facilities outside of Mahanoro
-replace base46 = . if treatment == 1 & District != "Mahanoro"
+
 
 
 // OUTCOME 47: FP User Would Refer a Friend to the Facility
@@ -673,8 +683,7 @@ replace base46 = . if treatment == 1 & District != "Mahanoro"
 gen base47 = s3b_7
 la val base47 yn
 la var base47	"47. FP User Would Refer a Friend to the Facility"
-** Drop measures from Drone facilities outside of Mahanoro
-replace base47 = . if treatment == 1 & District != "Mahanoro"
+
 
 
 // OUTCOME 48: Made an Informal Payment
@@ -683,8 +692,6 @@ replace base47 = . if treatment == 1 & District != "Mahanoro"
 gen base48 = s3b_8 > 0 & !missing(s3b_8) if s3_8 == 1
 la val base48 yn
 la var base48	"48. Made an Informal Payment"
-** Drop measures from Drone facilities outside of Mahanoro
-replace base48 = . if treatment == 1 & District != "Mahanoro"
 
 
 ** OUTCOME 49: There is Another Method They Would Prefer to Use
@@ -692,8 +699,7 @@ replace base48 = . if treatment == 1 & District != "Mahanoro"
 gen base49 = s3b_16
 la val base49 yn
 la var base49	"49. There is Another Method They Would Prefer to Use"
-** Drop measures from Drone facilities outside of Mahanoro
-replace base49 = . if treatment == 1 & District != "Mahanoro"
+
 
 
 ** OUTCOME 50: Among Users, Felt Had Enough Information to Make a Good Decision
@@ -701,16 +707,14 @@ replace base49 = . if treatment == 1 & District != "Mahanoro"
 gen base50 = s3b_22
 la val base50 yn
 la var base50	"50. Among Users, Felt Had Enough Information to Make a Good Decision"
-** Drop measures from Drone facilities outside of Mahanoro
-replace base50 = . if treatment == 1 & District != "Mahanoro"
+
 
 
 ** OUTCOME 51: Among Users, Felt They Could Not Say No to Using
 // Control/Drone/Total (228/65/293)
 recode s3b_25 (1=0 "No") (0=1 "Yes"), gen(base51)
 la var base51	"51. Among Users, Felt They Could Not Say No to Using"
-** Drop measures from Drone facilities outside of Mahanoro
-replace base51 = . if treatment == 1 & District != "Mahanoro"
+
 
 
 // OUTCOME 60: Sought Healthcare from a Public or Private Facility, Ever
@@ -766,8 +770,6 @@ la var base67	"67. Disagree or Strongly Disagree I Had to Wait a Long Time to Re
 // Control/Drone/Total (390/364/754)
 recode s10_9 (4 5=1 "Yes") (1/3=0 "No") (6=.) if s10_1 == 1, gen(base68)
 la var base68	"68. Disagree or Strongly Disagree Staff Did Not Have Methods"
-** Drop measures from Drone facilities outside of Mahanoro
-replace base68 = . if treatment == 1 & District != "Mahanoro"
 
 
 // OUTCOME 69: Disagree or Strongly Disagree Staff Did Not Have Vaccines
@@ -804,16 +806,13 @@ la var base73	"73. Those Treated Very Well by Provider at Public Facility in Las
 // Control/Drone/Total (361/68/429)
 recode s11_16 (1=1 "Yes") (2/4=0 "No") if s11_8 == 1, gen(base74)
 la var base74	"74. Those Very Confident They Could Receive Method Next Week at Closest Facility"
-** Drop measures from Drone facilities outside of Mahanoro
-replace base74 = . if treatment == 1 & District != "Mahanoro"
 
 
 // OUTCOME 75: Those Very Confident the Closest Facility Has a Reliable Supply of FP
 // Control/Drone/Total (361/68/429)
 recode s11_17 (1=1 "Yes") (2/4=0 "No") if s11_8 == 1, gen(base75)
 la var base75	"75. Those Very Confident the Closest Facility Has a Reliable Supply of FP"
-** Drop measures from Drone facilities outside of Mahanoro
-replace base75 = . if treatment == 1 & District != "Mahanoro"
+
 
 
 // OUTCOME 76: Those Very Confident in Receiving Vaccinations at the Closest Facility
@@ -823,7 +822,7 @@ la var base76	"76. Those Very Confident in Receiving Vaccinations at the Closest
 
 
 // Keep the baseline variables
-keep respondent treatment base* agecat attend s1_17 s1_18 s1_19 married s7_3 s2_1 pregcat lbcat lccat s3_5_current 
+keep respondent facility_id district type treatment base* agecat attend s1_17 s1_18 s1_19 s7_3 s2_1 pregcat lbcat lccat s3_5_current 
 
 
 // Save
@@ -834,16 +833,11 @@ save "$dp/baseline_micro_6_women.dta", replace
 ****************************************************************
 ** WOMEN'S QRE CHILD-LEVEL HEALTH MEASURES **
 // Open the Women's data
-use "$ip/women_cleaned_20240607_working.dta", clear
+use "$ip/drone-med_baseline_women_public", clear
 
-// Merge on Drone flights and districts
-drop treatment
-merge m:1 facility_id using "$dp/baseline_drone_treatment_district.dta", ///
-	keepusing(District treatment facility_id)
-drop _merge
 
 // Keep only those variables needed for this report
-keep facility_id respondent treatment s6_10_* s6_12_*
+keep facility_id district type respondent treatment s6_10_* s6_12_*
 
 // Reshape long
 reshape long s6_10_ s6_12_, ///
@@ -874,7 +868,7 @@ la var base59	"59. Among Children with Fever in Last Two Weeks, Pct Diagnosed wi
 
 
 // Keep the baseline variables
-keep facility_id respondent treatment base*
+keep facility_id district type respondent treatment base*
 
 
 // Save

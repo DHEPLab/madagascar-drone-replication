@@ -7,14 +7,14 @@ family,estimator,outcome,model,effect_size,se,p_value,n_obs,baseline_control_mea
 1,did,13. Rated Emergency Reordering Procedure Somewhat or Very Easy,DID,-.30048916,.10865004,.0066830833,216,.11111111,-270.44025
 1,ancova,14. Ordered Medical Commodities More Frequently Than Every 3 Months,ANCOVA,.12818629,.074518815,.088316642,107,.83333331,15.382354
 1,did,14. Ordered Medical Commodities More Frequently Than Every 3 Months,DID,.18763103,.10130518,.066737287,216,.83333331,22.515724
-1,ancova,15. Number of FP Visits Completed in Last Month (All Methods Combined),ANCOVA,-17.47052,24.62089,.4809081,57,121.97826,-14.32265
-1,did,15. Number of FP Visits Completed in Last Month (All Methods Combined),DID,69.236092,30.424688,.026119485,124,121.97826,56.761013
-1,ancova,16. Number of New Clients Receiving FP in the Last Month,ANCOVA,-1.2869564,7.3234119,.86115009,56,10.565217,-12.181069
-1,did,16. Number of New Clients Receiving FP in the Last Month,DID,2.55094,5.8344574,.66337925,123,10.565217,24.144701
+1,ancova,15. Number of FP Visits Completed in Last Month (All Methods Combined),ANCOVA,-2.8754921,18.299252,.87548876,91,121.97826,-2.3573809
+1,did,15. Number of FP Visits Completed in Last Month (All Methods Combined),DID,44.766899,35.508568,.21017228,198,121.97826,36.700718
+1,ancova,16. Number of New Clients Receiving FP in the Last Month,ANCOVA,.56368715,2.6263452,.83054841,90,10.565217,5.3353105
+1,did,16. Number of New Clients Receiving FP in the Last Month,DID,.51643986,3.4931152,.88274592,197,10.565217,4.8881135
 1,ancova,17. Out of Stock Prevented Helping a Patient in the Last Six Months,ANCOVA,-.018109053,.056935344,.75106853,106,.27777779,-6.519259
 1,did,17. Out of Stock Prevented Helping a Patient in the Last Six Months,DID,-.084609024,.10470899,.42084399,215,.27777779,-30.459249
-1,ancova,18. In Past 6 Months Staff Traveled to District Pharmacy to Place Emergency Orde,ANCOVA,-.13310105,.075864069,.082240194,107,.35185185,-37.828716
-1,did,18. In Past 6 Months Staff Traveled to District Pharmacy to Place Emergency Orde,DID,-.2267645,.11849241,.058299612,216,.35185185,-64.44886
+1,ancova,18. In Past 6 Months Staff Traveled to District Pharmacy to Place Emergency Orde,ANCOVA,.066281334,3.1452293,.98322654,107,.35185185,18.837852
+1,did,18. In Past 6 Months Staff Traveled to District Pharmacy to Place Emergency Orde,DID,-.1921733,2.7136996,.94367516,216,.35185185,-54.617676
 1,ancova,19. Facility Has Working Fridge for Cold Chain Storage,ANCOVA,.00096972205,.047836941,.98386496,107,.81481481,.11901134
 1,did,19. Facility Has Working Fridge for Cold Chain Storage,DID,.00069881201,.060916997,.99086839,216,.81481481,.085763291
 1,ancova,1a. Out of Stock of Vaccine Janssen at Time of Survey,ANCOVA,.14279552,.093968496,.13245542,83,.11363637,125.66006
@@ -41,8 +41,8 @@ family,estimator,outcome,model,effect_size,se,p_value,n_obs,baseline_control_mea
 1,did,1k. Out of Stock of Vaccine BCG at Time of Survey,DID,.14753643,.14152008,.29984805,178,.29545453,49.935406
 1,ancova,2. Out of Stock of Malaria Tests at Time of Survey,ANCOVA,-.075464703,.046894588,.11053793,107,.037037037,-203.7547
 1,did,2. Out of Stock of Malaria Tests at Time of Survey,DID,-.05520615,.057110183,.33587351,216,.037037037,-149.05661
-1,ancova,21. Informal Payment for Contraception,ANCOVA,-.071721837,.1404784,.61134136,68,.46296296,-15.491917
-1,did,21. Informal Payment for Contraception,DID,.11640212,.17137367,.49933204,136,.46296296,25.142857
+1,ancova,21. Informal Payment for Contraception,ANCOVA,-.0049000424,.34948096,.98883963,107,10.277778,-.04767609
+1,did,21. Informal Payment for Contraception,DID,.39203355,.48613098,.42176375,216,10.277778,3.8143804
 1,ancova,3. Out of Stock of Malaria Tests in the 3 Months Before Survey,ANCOVA,-.014950496,.038885359,.70146716,98,.03846154,-38.871292
 1,did,3. Out of Stock of Malaria Tests in the 3 Months Before Survey,DID,-.14836213,.066006824,.026628513,207,.03846154,-385.74152
 1,ancova,4. Out of Stock of Antimalarial Medicine at Time of Survey,ANCOVA,-.035578229,.038405109,.35634613,107,.09259259,-38.424488
@@ -53,44 +53,44 @@ family,estimator,outcome,model,effect_size,se,p_value,n_obs,baseline_control_mea
 1,did,5a. Out of Stock of Implants at Time of Survey,DID,.11740042,.10186494,.251656,216,.22222222,52.830189
 1,ancova,5b. Out of Stock of Injectable Depo Provera at Time of Survey,ANCOVA,-.074759662,.088126637,.39817092,107,.55555558,-13.456738
 1,did,5b. Out of Stock of Injectable Depo Provera at Time of Survey,DID,.038434662,.1482258,.79589891,216,.55555558,6.9182391
-1,ancova,5c. Out of Stock of Injectable Syana Press at Time of Survey,ANCOVA,-.08034043,.078665957,.30944422,107,.42592594,-18.862535
-1,did,5c. Out of Stock of Injectable Syana Press at Time of Survey,DID,.0017470301,.12782501,.9891206,216,.42592594,.41017228
+1,ancova,5c. Out of Stock of Injectable Sayana Press at Time of Survey,ANCOVA,-.08034043,.078665957,.30944422,107,.42592594,-18.862535
+1,did,5c. Out of Stock of Injectable Sayana Press at Time of Survey,DID,.0017470301,.12782501,.9891206,216,.42592594,.41017228
 1,ancova,5d. Out of Stock of Pills at Time of Survey,ANCOVA,.058435526,.097916134,.55191904,107,.2962963,19.721991
 1,did,5d. Out of Stock of Pills at Time of Survey,DID,.21278825,.12944821,.10312352,216,.2962963,71.81604
 1,ancova,5e. Out of Stock of Male Condoms at Time of Survey,ANCOVA,.17839353,.083578713,.035112001,107,.09259259,192.66501
 1,did,5e. Out of Stock of Male Condoms at Time of Survey,DID,.1160028,.11244694,.30455369,216,.09259259,125.28302
 1,ancova,6. Out of Stock of Any Contraceptive Method in the 3 Months Before Survey,ANCOVA,-.15472996,.095991701,.11056251,89,.54901963,-28.182959
 1,did,6. Out of Stock of Any Contraceptive Method in the 3 Months Before Survey,DID,-.12917824,.12622382,.30849046,194,.54901963,-23.528893
-1,ancova,7. Out of Stock of LARC Removal Supplies at Time of Survey,ANCOVA,-.15636258,.20560026,.45019349,56,.20930232,-74.706566
-1,did,7. Out of Stock of LARC Removal Supplies at Time of Survey,DID,-.18909182,.1654693,.25627303,144,.20930232,-90.343864
-1,ancova,8. Out of Stock of LARC Removal Supplies in the 3 Months Before Survey,ANCOVA,0,0,,56,0,
-1,did,8. Out of Stock of LARC Removal Supplies in the 3 Months Before Survey,DID,0,0,,144,0,
+1,ancova,7. Out of Stock of LARC Removal Supplies at Time of Survey,ANCOVA,0,0,,107,0,
+1,did,7. Out of Stock of LARC Removal Supplies at Time of Survey,DID,0,0,,216,0,
+1,ancova,8. Out of Stock of LARC Removal Supplies in the 3 Months Before Survey,ANCOVA,0,0,,107,0,
+1,did,8. Out of Stock of LARC Removal Supplies in the 3 Months Before Survey,DID,0,0,,216,0,
 6,ancova,39. Currently Using Any Contraceptive Method,ANCOVA,.017990628,.024484148,.46406189,2879,.45847625,3.9240043
 6,did,39. Currently Using Any Contraceptive Method,DID,-.0046881,.035117686,.89404893,3890,.46450305,-1.0092722
 6,ancova,40. Currently Using a Modern Contraceptive Method,ANCOVA,.020579914,.024260672,.39815661,2879,.45662329,4.5069785
 6,did,40. Currently Using a Modern Contraceptive Method,DID,-.000026472506,.035591636,.99940795,3890,.46247464,-.005724099
 6,ancova,41. Has Aligned and Preferred Contraceptive Use,ANCOVA,.0072480482,.014911747,.62790728,2871,.83023506,.87301159
 6,did,41. Has Aligned and Preferred Contraceptive Use,DID,.061306339,.029388592,.039328571,3881,.82723576,7.4109874
-6,ancova,42. Has Unmet Need for Contraception,ANCOVA,-.0038992756,.011710498,.73980045,3377,.13628213,-2.8611789
-6,did,42. Has Unmet Need for Contraception,DID,.006080607,.020538978,.76775885,4576,.13636364,4.4591117
-6,ancova,43. Obtained Method from Public Facility,ANCOVA,.040478181,.097572826,.67961711,885,.82833171,4.8867116
-6,did,43. Obtained Method from Public Facility,DID,-.012038643,.094882295,.89941555,1166,.84722221,-1.4209546
-6,ancova,44. Obtained Method from Closest Facility to Home,ANCOVA,-.017028647,.059440333,.77540559,961,.79818338,-2.1334252
-6,did,44. Obtained Method from Closest Facility to Home,DID,.047469489,.071286343,.50776201,1255,.80263156,5.9142313
-6,ancova,"45. Among Those Not Using, Wishes They Were Using Contraception",ANCOVA,.062973924,.059171651,.29103228,828,.27449337,22.941875
-6,did,"45. Among Those Not Using, Wishes They Were Using Contraception",DID,-.11563354,.070414349,.10523707,1160,.27924529,-41.409309
-6,ancova,46. Received MII+,ANCOVA,.05336754,.049631387,.28616551,956,.24959278,21.381844
-6,did,46. Received MII+,DID,.0032153728,.093699194,.9727273,1250,.24122807,1.3329182
-6,ancova,47. FP User Would Refer a Friend to the Facility,ANCOVA,.05251867,.047424618,.27213484,956,.74105453,7.0870185
-6,did,47. FP User Would Refer a Friend to the Facility,DID,.068224877,.059792608,.25792143,1250,.7280702,9.3706465
-6,ancova,48. Made an Informal Payment,ANCOVA,-.06415382,.056974195,.26456958,671,.84852147,-7.5606599
-6,did,48. Made an Informal Payment,DID,.0014044009,.087453611,.9872359,929,.863388,.16266163
-6,ancova,49. There is Another Method They Would Prefer to Use,ANCOVA,-.040190306,.04706246,.39620617,956,.15663414,-25.658714
-6,did,49. There is Another Method They Would Prefer to Use,DID,-.05467058,.085469916,.52458328,1250,.17982456,-30.402176
-6,ancova,"50. Among Users, Felt Had Enough Information to Make a Good Decision",ANCOVA,.046984848,.062729925,.45651716,956,.57428998,8.1813803
-6,did,"50. Among Users, Felt Had Enough Information to Make a Good Decision",DID,-.0027740402,.11401708,.98066169,1250,.5350877,-.51842719
-6,ancova,"51. Among Users, Felt They Could Not Say No to Using",ANCOVA,.027041148,.05819568,.64370495,956,.26713115,10.122798
-6,did,"51. Among Users, Felt They Could Not Say No to Using",DID,.010857031,.072352789,.88117057,1250,.25877193,4.1955986
+6,ancova,42. Has Unmet Need for Contraception,ANCOVA,-.01413215,.012185657,.24871366,3377,.10922132,-12.939003
+6,did,42. Has Unmet Need for Contraception,DID,-.0053059394,.020280974,.79411155,4576,.10942761,-4.8488121
+6,ancova,43. Obtained Method from Public Facility,ANCOVA,2.1104865,1.2840199,.10326725,1411,.82833171,254.7876
+6,did,43. Obtained Method from Public Facility,DID,2.0427351,1.4572932,.1638626,1878,.84722221,241.10971
+6,ancova,44. Obtained Method from Closest Facility to Home,ANCOVA,-.32254446,.1970046,.10457332,1531,.79818338,-40.409821
+6,did,44. Obtained Method from Closest Facility to Home,DID,-.32122949,.18695298,.088619009,2024,.80263156,-40.022034
+6,ancova,"45. Among Those Not Using, Wishes They Were Using Contraception",ANCOVA,-.00090875884,.03028331,.97611558,1346,.27449337,-.33106771
+6,did,"45. Among Those Not Using, Wishes They Were Using Contraception",DID,-.12994686,.049188461,.009470473,1874,.27924529,-46.535023
+6,ancova,46. Received MII+,ANCOVA,-.0095131733,.02335318,.68457222,1523,.24959278,-3.8114777
+6,did,46. Received MII+,DID,-.016282847,.051287927,.75149304,2016,.24122807,-6.7499804
+6,ancova,47. FP User Would Refer a Friend to the Facility,ANCOVA,-.022094317,.029569235,.45660907,1523,.74105453,-2.9814699
+6,did,47. FP User Would Refer a Friend to the Facility,DID,-.059097353,.053775363,.27422625,2016,.7280702,-8.1169863
+6,ancova,48. Made an Informal Payment,ANCOVA,-.065242819,.034360498,.060535833,1084,.84852147,-7.6890011
+6,did,48. Made an Informal Payment,DID,-.06246049,.054163713,.25143042,1488,.863388,-7.2343478
+6,ancova,49. There is Another Method They Would Prefer to Use,ANCOVA,.031584304,.025734518,.2224496,1523,.15663414,20.164381
+6,did,49. There is Another Method They Would Prefer to Use,DID,-.020458205,.053209774,.70137721,2016,.17982456,-11.376758
+6,ancova,"50. Among Users, Felt Had Enough Information to Make a Good Decision",ANCOVA,-.026518902,.034768116,.44733083,1523,.57428998,-4.6176848
+6,did,"50. Among Users, Felt Had Enough Information to Make a Good Decision",DID,-.050011046,.065805785,.44892269,2016,.5350877,-9.3463268
+6,ancova,"51. Among Users, Felt They Could Not Say No to Using",ANCOVA,.0084551349,.031627879,.78973818,1523,.26713115,3.1651623
+6,did,"51. Among Users, Felt They Could Not Say No to Using",DID,-.0079343356,.052232638,.87954623,2016,.25877193,-3.0661502
 6,ancova,"60. Sought Healthcare from a Public or Private Facility, Ever",ANCOVA,-.018057574,.0084296605,.034428447,3377,.91077542,-1.9826593
 6,did,"60. Sought Healthcare from a Public or Private Facility, Ever",DID,.015070073,.020122822,.45554274,4576,.91077441,1.6546439
 6,ancova,61. Sought Healthcare from a Public Facility the Most Recent Time,ANCOVA,-.029370349,.039069716,.45384133,3232,.88337654,-3.3247824
@@ -107,8 +107,8 @@ family,estimator,outcome,model,effect_size,se,p_value,n_obs,baseline_control_mea
 6,did,66. Strongly Agree Staff Involved Me in Decisions About My Care,DID,.040147815,.04979663,.42187878,3559,.37578288,10.68378
 6,ancova,67. Disagree or Strongly Disagree I Had to Wait a Long Time to Receive Care,ANCOVA,.019594193,.0069358051,.0056584692,2616,.015046322,130.2258
 6,did,67. Disagree or Strongly Disagree I Had to Wait a Long Time to Receive Care,DID,.017634893,.011364541,.12364831,3559,.016701462,105.58892
-6,ancova,68. Disagree or Strongly Disagree Staff Did Not Have Methods,ANCOVA,-.043858949,.070396945,.535483,1306,.81618178,-5.3736744
-6,did,68. Disagree or Strongly Disagree Staff Did Not Have Methods,DID,-.055454522,.084044322,.51162821,1787,.80769229,-6.865798
+6,ancova,68. Disagree or Strongly Disagree Staff Did Not Have Methods,ANCOVA,-.061743099,.03670682,.095557421,2078,.81618178,-7.5648713
+6,did,68. Disagree or Strongly Disagree Staff Did Not Have Methods,DID,-.039972607,.056582805,.48143309,2849,.80769229,-4.9489894
 6,ancova,69. Disagree or Strongly Disagree Staff Did Not Have Vaccines,ANCOVA,-.032263819,.025766969,.21335515,2214,.88187575,-3.6585448
 6,did,69. Disagree or Strongly Disagree Staff Did Not Have Vaccines,DID,.01036596,.037202295,.78105575,3000,.88295168,1.1740122
 6,ancova,70. Perceived High Quality Care at the Closest Facility,ANCOVA,.06164062,.03911867,.11801194,3377,.32684889,18.859058
@@ -119,13 +119,13 @@ family,estimator,outcome,model,effect_size,se,p_value,n_obs,baseline_control_mea
 6,did,72. Those Who Rated Care as Excellent Quality at Public Facility in Last Year,DID,.098126903,.053895887,.071425132,2670,.44598338,22.002369
 6,ancova,73. Those Treated Very Well by Provider at Public Facility in Last Year,ANCOVA,.02954766,.040135566,.46325275,1956,.47961783,6.1606674
 6,did,73. Those Treated Very Well by Provider at Public Facility in Last Year,DID,.075304516,.056467503,.18514396,2670,.47922438,15.713833
-6,ancova,74. Those Very Confident They Could Receive Method Next Week at Closest Facility,ANCOVA,.0492188,.065877542,.45772386,1247,.023817072,206.65346
-6,did,74. Those Very Confident They Could Receive Method Next Week at Closest Facility,DID,-.041626956,.064167425,.51873416,1710,.019390581,-214.67616
-6,ancova,75. Those Very Confident the Closest Facility Has a Reliable Supply of FP,ANCOVA,.065382004,.052846417,.22053024,1247,.023742355,275.38129
-6,did,75. Those Very Confident the Closest Facility Has a Reliable Supply of FP,DID,.020685431,.054818168,.70710897,1710,.019390581,106.67772
+6,ancova,74. Those Very Confident They Could Receive Method Next Week at Closest Facility,ANCOVA,.016649688,.035876546,.64354914,1956,.023817072,69.906525
+6,did,74. Those Very Confident They Could Receive Method Next Week at Closest Facility,DID,.018907882,.038285322,.62240255,2670,.019390581,97.510651
+6,ancova,75. Those Very Confident the Closest Facility Has a Reliable Supply of FP,ANCOVA,.022422144,.028808583,.43813387,1956,.023742355,94.43943
+6,did,75. Those Very Confident the Closest Facility Has a Reliable Supply of FP,DID,.033498701,.033052519,.31308702,2670,.019390581,172.75758
 6,ancova,76. Those Very Confident in Receiving Vaccinations at the Closest Facility,ANCOVA,-.00010788037,.045551609,.99811488,1956,.017345753,-.62194115
 6,did,76. Those Very Confident in Receiving Vaccinations at the Closest Facility,DID,-.0041066688,.047668774,.93150663,2670,.013850415,-29.650148
-8,ancova,"58. Among Children with Fever in Last Two Weeks, Pct Who Had Blood Taken",ANCOVA,-.057269003,.058726385,.33217296,362,.61102003,-9.3726883
+8,ancova,"58. Among Children with Fever in Last Two Weeks, Pct Who Had Blood Taken",ANCOVA,-.057269003,.058726385,.33217296,362,.61777163,-9.2702551
 8,did,"58. Among Children with Fever in Last Two Weeks, Pct Who Had Blood Taken",DID,.19345593,.092563346,.038967099,626,.5955056,32.485996
-8,ancova,"59. Among Children with Fever in Last Two Weeks, Pct Diagnosed with Malaria",ANCOVA,-.090354957,.058041155,.12316281,362,.39972678,-22.604179
-8,did,"59. Among Children with Fever in Last Two Weeks, Pct Diagnosed with Malaria",DID,.12998854,.094294399,.17088568,626,.40449437,32.136055
+8,ancova,"59. Among Children with Fever in Last Two Weeks, Pct Diagnosed with Malaria",ANCOVA,-.90301955,.54419273,.10064117,362,.40414366,-223.44023
+8,did,"59. Among Children with Fever in Last Two Weeks, Pct Diagnosed with Malaria",DID,-.82049996,.64196926,.20395485,626,.40449437,-202.84581

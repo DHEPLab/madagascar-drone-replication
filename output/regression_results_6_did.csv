@@ -2,16 +2,16 @@ Outcome,Model,Effect_Size,Standard_Error,P_value,Observations,Baseline_Control_M
 39. Currently Using Any Contraceptive Method,DID,-.0046881,.035117686,.89404893,3890,.46450305,-1.0092722
 40. Currently Using a Modern Contraceptive Method,DID,-.000026472506,.035591636,.99940795,3890,.46247464,-.005724099
 41. Has Aligned and Preferred Contraceptive Use,DID,.061306339,.029388592,.039328571,3881,.82723576,7.4109874
-42. Has Unmet Need for Contraception,DID,.006080607,.020538978,.76775885,4576,.13636364,4.4591117
-43. Obtained Method from Public Facility,DID,-.012038643,.094882295,.89941555,1166,.84722221,-1.4209546
-44. Obtained Method from Closest Facility to Home,DID,.047469489,.071286343,.50776201,1255,.80263156,5.9142313
-"45. Among Those Not Using, Wishes They Were Using Contraception",DID,-.11563354,.070414349,.10523707,1160,.27924529,-41.409309
-46. Received MII+,DID,.0032153728,.093699194,.9727273,1250,.24122807,1.3329182
-47. FP User Would Refer a Friend to the Facility,DID,.068224877,.059792608,.25792143,1250,.7280702,9.3706465
-48. Made an Informal Payment,DID,.0014044009,.087453611,.9872359,929,.863388,.16266163
-49. There is Another Method They Would Prefer to Use,DID,-.05467058,.085469916,.52458328,1250,.17982456,-30.402176
-"50. Among Users, Felt Had Enough Information to Make a Good Decision",DID,-.0027740402,.11401708,.98066169,1250,.5350877,-.51842719
-"51. Among Users, Felt They Could Not Say No to Using",DID,.010857031,.072352789,.88117057,1250,.25877193,4.1955986
+42. Has Unmet Need for Contraception,DID,-.0053059394,.020280974,.79411155,4576,.10942761,-4.8488121
+43. Obtained Method from Public Facility,DID,2.0427351,1.4572932,.1638626,1878,.84722221,241.10971
+44. Obtained Method from Closest Facility to Home,DID,-.32122949,.18695298,.088619009,2024,.80263156,-40.022034
+"45. Among Those Not Using, Wishes They Were Using Contraception",DID,-.12994686,.049188461,.009470473,1874,.27924529,-46.535023
+46. Received MII+,DID,-.016282847,.051287927,.75149304,2016,.24122807,-6.7499804
+47. FP User Would Refer a Friend to the Facility,DID,-.059097353,.053775363,.27422625,2016,.7280702,-8.1169863
+48. Made an Informal Payment,DID,-.06246049,.054163713,.25143042,1488,.863388,-7.2343478
+49. There is Another Method They Would Prefer to Use,DID,-.020458205,.053209774,.70137721,2016,.17982456,-11.376758
+"50. Among Users, Felt Had Enough Information to Make a Good Decision",DID,-.050011046,.065805785,.44892269,2016,.5350877,-9.3463268
+"51. Among Users, Felt They Could Not Say No to Using",DID,-.0079343356,.052232638,.87954623,2016,.25877193,-3.0661502
 "60. Sought Healthcare from a Public or Private Facility, Ever",DID,.015070073,.020122822,.45554274,4576,.91077441,1.6546439
 61. Sought Healthcare from a Public Facility the Most Recent Time,DID,-.012608936,.040132441,.75398803,4305,.88539743,-1.424099
 62. Strongly Agree Staff Was Friendly,DID,.10409912,.061059326,.09109091,3559,.58663881,17.74501
@@ -20,12 +20,12 @@ Outcome,Model,Effect_Size,Standard_Error,P_value,Observations,Baseline_Control_M
 65. Strongly Agree Staff Ensured Privacy,DID,.083137967,.052394278,.11548706,3559,.46137786,18.019495
 66. Strongly Agree Staff Involved Me in Decisions About My Care,DID,.040147815,.04979663,.42187878,3559,.37578288,10.68378
 67. Disagree or Strongly Disagree I Had to Wait a Long Time to Receive Care,DID,.017634893,.011364541,.12364831,3559,.016701462,105.58892
-68. Disagree or Strongly Disagree Staff Did Not Have Methods,DID,-.055454522,.084044322,.51162821,1787,.80769229,-6.865798
+68. Disagree or Strongly Disagree Staff Did Not Have Methods,DID,-.039972607,.056582805,.48143309,2849,.80769229,-4.9489894
 69. Disagree or Strongly Disagree Staff Did Not Have Vaccines,DID,.01036596,.037202295,.78105575,3000,.88295168,1.1740122
 70. Perceived High Quality Care at the Closest Facility,DID,.026438864,.060811073,.6645965,4576,.32659933,8.0951986
 71. Those Highly Satisfied with Care Among Those at Public Facility in Last Year,DID,.0036427383,.060065717,.95175332,2670,.56232685,.64779735
 72. Those Who Rated Care as Excellent Quality at Public Facility in Last Year,DID,.098126903,.053895887,.071425132,2670,.44598338,22.002369
 73. Those Treated Very Well by Provider at Public Facility in Last Year,DID,.075304516,.056467503,.18514396,2670,.47922438,15.713833
-74. Those Very Confident They Could Receive Method Next Week at Closest Facility,DID,-.041626956,.064167425,.51873416,1710,.019390581,-214.67616
-75. Those Very Confident the Closest Facility Has a Reliable Supply of FP,DID,.020685431,.054818168,.70710897,1710,.019390581,106.67772
+74. Those Very Confident They Could Receive Method Next Week at Closest Facility,DID,.018907882,.038285322,.62240255,2670,.019390581,97.510651
+75. Those Very Confident the Closest Facility Has a Reliable Supply of FP,DID,.033498701,.033052519,.31308702,2670,.019390581,172.75758
 76. Those Very Confident in Receiving Vaccinations at the Closest Facility,DID,-.0041066688,.047668774,.93150663,2670,.013850415,-29.650148

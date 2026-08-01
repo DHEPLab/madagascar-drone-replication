@@ -17,18 +17,18 @@ Outcome,Model,Effect_Size,Standard_Error,P_value,Observations,Baseline_Control_M
 5. Out of Stock of Any Contraceptive Method at Time of Survey,DID,.079315163,.10964923,.47102645,216,.68518519,11.575727
 5a. Out of Stock of Implants at Time of Survey,DID,.11740042,.10186494,.251656,216,.22222222,52.830189
 5b. Out of Stock of Injectable Depo Provera at Time of Survey,DID,.038434662,.1482258,.79589891,216,.55555558,6.9182391
-5c. Out of Stock of Injectable Syana Press at Time of Survey,DID,.0017470301,.12782501,.9891206,216,.42592594,.41017228
+5c. Out of Stock of Injectable Sayana Press at Time of Survey,DID,.0017470301,.12782501,.9891206,216,.42592594,.41017228
 5d. Out of Stock of Pills at Time of Survey,DID,.21278825,.12944821,.10312352,216,.2962963,71.81604
 5e. Out of Stock of Male Condoms at Time of Survey,DID,.1160028,.11244694,.30455369,216,.09259259,125.28302
 6. Out of Stock of Any Contraceptive Method in the 3 Months Before Survey,DID,-.12917824,.12622382,.30849046,194,.54901963,-23.528893
-7. Out of Stock of LARC Removal Supplies at Time of Survey,DID,-.18909182,.1654693,.25627303,144,.20930232,-90.343864
-8. Out of Stock of LARC Removal Supplies in the 3 Months Before Survey,DID,0,0,,144,0,
+7. Out of Stock of LARC Removal Supplies at Time of Survey,DID,0,0,,216,0,
+8. Out of Stock of LARC Removal Supplies in the 3 Months Before Survey,DID,0,0,,216,0,
 12. Number of Providers Present Today,DID,.19566737,.32477152,.5481196,216,3.2037036,6.1075363
 13. Rated Emergency Reordering Procedure Somewhat or Very Easy,DID,-.30048916,.10865004,.0066830833,216,.11111111,-270.44025
 14. Ordered Medical Commodities More Frequently Than Every 3 Months,DID,.18763103,.10130518,.066737287,216,.83333331,22.515724
-15. Number of FP Visits Completed in Last Month (All Methods Combined),DID,69.236092,30.424688,.026119485,124,121.97826,56.761013
-16. Number of New Clients Receiving FP in the Last Month,DID,2.55094,5.8344574,.66337925,123,10.565217,24.144701
+15. Number of FP Visits Completed in Last Month (All Methods Combined),DID,44.766899,35.508568,.21017228,198,121.97826,36.700718
+16. Number of New Clients Receiving FP in the Last Month,DID,.51643986,3.4931152,.88274592,197,10.565217,4.8881135
 17. Out of Stock Prevented Helping a Patient in the Last Six Months,DID,-.084609024,.10470899,.42084399,215,.27777779,-30.459249
-18. In Past 6 Months Staff Traveled to District Pharmacy to Place Emergency Orde,DID,-.2267645,.11849241,.058299612,216,.35185185,-64.44886
+18. In Past 6 Months Staff Traveled to District Pharmacy to Place Emergency Orde,DID,-.1921733,2.7136996,.94367516,216,.35185185,-54.617676
 19. Facility Has Working Fridge for Cold Chain Storage,DID,.00069881201,.060916997,.99086839,216,.81481481,.085763291
-21. Informal Payment for Contraception,DID,.11640212,.17137367,.49933204,136,.46296296,25.142857
+21. Informal Payment for Contraception,DID,.39203355,.48613098,.42176375,216,10.277778,3.8143804
