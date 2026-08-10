@@ -1,0 +1,9 @@
+DRONE-MED Table 1 public-data replication
+Facility input: data/drone-med_baseline_facility_audit_public.tab
+Women input: data/drone-med_baseline_women_public.tab
+Facility sample: N=107 (drone=53, control=54) after excluding consent==0
+Women sample: N=1,199 (drone=605, control=594)
+Categorical tests: Pearson chi-square without continuity correction
+Continuous tests: pooled-variance two-sample t test
+Pregnancy, live-birth, and living-child counts are top-coded at 6
+No private helper datasets used.

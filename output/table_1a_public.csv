@@ -1,0 +1,43 @@
+Characteristic,Level,Drone (N=53),Control (N=54),Total (N=107),p-value
+Employee Assisting with Interview/Audit,In-charge/manager,40 (75.5%),38 (70.4%),78 (72.9%),0.55
+,Staff,13 (24.5%),16 (29.6%),29 (27.1%),
+Number of Providers Currently Assigned,2 - 3 Providers,17 (32.1%),13 (24.1%),30 (28.0%),0.53
+,4 - 5 Providers,31 (58.5%),32 (59.3%),63 (58.9%),
+,6 - 8 Providers,5 (9.4%),8 (14.8%),13 (12.1%),
+,9+ Providers,0 (0.0%),1 (1.9%),1 (0.9%),
+Number of Providers Present Today,No Providers,1 (1.9%),0 (0.0%),1 (0.9%),0.079
+,1 Provider,4 (7.5%),6 (11.1%),10 (9.3%),
+,2 Providers,36 (67.9%),25 (46.3%),61 (57.0%),
+,3 Providers,12 (22.6%),20 (37.0%),32 (29.9%),
+,4 Providers,0 (0.0%),3 (5.6%),3 (2.8%),
+Designee In Charge of Stock Management,Doctor,3 (5.7%),6 (11.1%),9 (8.4%),0.22
+,Nurse,19 (35.8%),21 (38.9%),40 (37.4%),
+,Dispenser,24 (45.3%),26 (48.1%),50 (46.7%),
+,Community health worker,1 (1.9%),0 (0.0%),1 (0.9%),
+,Midwife,6 (11.3%),1 (1.9%),7 (6.5%),
+Designee Has Enough Dedicated Work Hours for Inventory Management,No,7 (13.2%),11 (20.4%),18 (16.8%),0.32
+,Yes,46 (86.8%),43 (79.6%),89 (83.2%),
+Rating of Emergency Re-Ordering Procedure,Very challenging,9 (17.0%),8 (14.8%),17 (15.9%),0.038
+,Somewhat challenging,10 (18.9%),22 (40.7%),32 (29.9%),
+,Neutral,17 (32.1%),18 (33.3%),35 (32.7%),
+,Somewhat easy,16 (30.2%),6 (11.1%),22 (20.6%),
+,Very easy,1 (1.9%),0 (0.0%),1 (0.9%),
+Facility Has Electricity,No,38 (71.7%),38 (70.4%),76 (71.0%),0.88
+,Yes,15 (28.3%),16 (29.6%),31 (29.0%),
+Facility Has Running Water,No,49 (92.5%),49 (90.7%),98 (91.6%),0.75
+,Yes,4 (7.5%),5 (9.3%),9 (8.4%),
+Facility Has Hand-Washing Facility,No,29 (54.7%),25 (46.3%),54 (50.5%),0.38
+,Yes,24 (45.3%),29 (53.7%),53 (49.5%),
+Frequency of Medical Commodities/Supplies Checked,Once a day,1 (1.9%),3 (5.6%),4 (3.7%),0.48
+,Once or twice a week,5 (9.4%),3 (5.6%),8 (7.5%),
+,Once or twice a month,47 (88.7%),47 (87.0%),94 (87.9%),
+,Once or twice a year,0 (0.0%),1 (1.9%),1 (0.9%),
+Frequency of Medical Commodities/Supplies Ordered,Once or twice a week,1 (1.9%),0 (0.0%),1 (0.9%),0.46
+,Once or twice a month,4 (7.5%),5 (9.3%),9 (8.4%),
+,Every other month,35 (66.0%),40 (74.1%),75 (70.1%),
+,Every three months,13 (24.5%),8 (14.8%),21 (19.6%),
+,Once or twice a year,0 (0.0%),1 (1.9%),1 (0.9%),
+Facility Has Service Roster Displayed,No,45 (84.9%),42 (77.8%),87 (81.3%),0.34
+,Yes,8 (15.1%),12 (22.2%),20 (18.7%),
+Facility Has System to Solicit Client Opinions,No,34 (64.2%),28 (51.9%),62 (57.9%),0.20
+,Yes,19 (35.8%),26 (48.1%),45 (42.1%),
