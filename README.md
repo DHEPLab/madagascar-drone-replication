@@ -22,7 +22,7 @@ Download the required public-use datasets and place them in the data/ folder.
 pip install pandas numpy statsmodels scipy
 ### 3. Replicate Table 1.
 python code/drone_med_public_table1_replication.py \
-  --data-dir data \
+  --data-dir . \
   --output-dir output
 ### 4. Replicate Table 2.
 python code/drone_med_public_table2_replication.py \
